@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+:root{
+  --brand-primary:#1976d2;
+  --bg:#e6f0ff;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+}
+html,body{height:100%}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family: Roboto, Arial, sans-serif;
+}
