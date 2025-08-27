@@ -9,13 +9,14 @@ export const MOCK_USERS: IUser[] = [
     isActive: true,
     email: 'admin@securebank.io',
     phone: '01000000000'
+  },
    {
     id: 2,
     userName: 'esraa',
     password: 'esraa1',
     role: 'User',
     isActive: true,
-    email: 'esraa@mail.com',
+    email: 'esraa@gmail.com',
     phone: '01222222222'
   }
 ];
