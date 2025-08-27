@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LoginComponent } from './pages/login/login.component';
-
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 @NgModule({
   declarations: [LoginComponent],
   imports: [
@@ -20,6 +20,7 @@ import { LoginComponent } from './pages/login/login.component';
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatSnackBarModule
   ]
 })
 export class AuthModule { }
