@@ -10,6 +10,18 @@ import { AdminDashboardComponent } from './components/admin-dashboard/admin-dash
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 
 export const routes: Routes = [
+
+{
+     path: '', pathMatch: 'full', redirectTo: 'auth/login'
+},
+{
+    path: 'auth',
+    loadChildren: () => import('./modules/auth/auth.module').then(m => m.AuthModule)
+},
+{ 
+    path: '**', redirectTo: 'auth/login'
+}];
+=======
 {path:"" , redirectTo:"user", pathMatch:'full'},
     {path:'user' , component: UserLayoutComponent , children:[
         {path:"" , redirectTo:"user-home", pathMatch:'full'},
@@ -26,3 +38,4 @@ export const routes: Routes = [
     {path:'**' , component: NotFoundComponent , title: "Error 404"}
 
 ];
+
