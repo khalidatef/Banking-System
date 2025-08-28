@@ -1,0 +1,88 @@
+<section>
+  <div class="d-flex justify-content-between mt-5 ms-5">
+    <div class="head">
+      <h1 class="head fw-semibold">Admin Dashboard</h1>
+      <p class="sub-head">Manage users and system settings</p>
+    </div>
+    <div class="me-5 mt-3">
+      <button class="btn btn-primary rounded-3">
+        <i class="fa-solid fa-user-plus me-2"></i>Add User
+      </button>
+    </div>
+  </div>
+  <div class="table-card-style ms-5 mt-5">
+    <div class="head mb-4">
+      <h1 class="head fw-semibold">
+        <i class="fa-solid fa-users me-3"></i>User Management
+      </h1>
+      <p class="sub-head">View and manage all registred users</p>
+    </div>
+    <div class="row">
+      <table class="table fw-medium">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Role</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of users; track user) {
+          <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.phone }}</td>
+            <td>
+              <span
+                class="badge"
+                [ngClass]="user.role === 'Admin' ? 'bg-primary' : 'bg-success'"
+              >
+                {{ user.role }}
+              </span>
+            </td>
+            <td>
+              <span
+                class="badge"
+                [ngClass]="
+                  user.status === 'Active' ? 'bg-primary' : 'bg-danger'
+                "
+              >
+                {{ user.status }}
+              </span>
+            </td>
+            <td>
+              <button
+                class="btn button btn-sm me-1 rounded-3 text-dark fw-medium"
+                (click)="toggleStatus(user)"
+              >
+                <i
+                  [ngClass]="user.status == 'Active' ? 'fa fa-eye' : 'fa far fa-eye-slash'"
+                ></i>
+
+                {{ user.status === "Active" ? "Deactivate" : "Activate" }}
+              </button>
+
+              <button
+                class="btn button btn-sm me-1 rounded-3 text-dark fw-medium"
+                (click)="editUser(user)"
+              >
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+
+              <button
+                class="btn button btn-sm rounded-3 text-dark fw-medium"
+                (click)="deleteUser(user)"
+              >
+                <i class="fa fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>

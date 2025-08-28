@@ -1,0 +1,165 @@
+<div class="transactions-container fade-in">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="header-icon">
+          <i class="fas fa-receipt"></i>
+        </div>
+        <div class="header-text">
+          <h1 class="page-title">Transaction History</h1>
+          <p class="page-subtitle">View and filter your account transactions</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Filters Section -->
+    <div class="filters-section slide-up">
+      <div class="card card-custom">
+        <div class="card-body p-4">
+          <div class="filters-header mb-4">
+            <div class="section-title">
+              <div class="section-icon">
+                <i class="fas fa-filter"></i>
+              </div>
+              <h5 class="mb-0">Filter Transactions</h5>
+            </div>
+          </div>
+          
+          <div class="row g-4">
+            <!-- Search Filter -->
+            <div class="col-md-6">
+              <div class="filter-group">
+                <label for="search" class="filter-label">
+                  <i class="fas fa-search me-2"></i>
+                  Search Description
+                </label>
+                <div class="search-wrapper">
+                  <input 
+                    type="text" 
+                    id="search"
+                    class="form-control search-input" 
+                    placeholder="Search by description..."
+                    [(ngModel)]="searchQuery"
+                    (input)="onSearch()">
+                  <div class="search-icon-wrapper">
+                    <i class="fas fa-search"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Transaction Type Filter -->
+            <div class="col-md-6">
+              <div class="filter-group">
+                <label for="transactionType" class="filter-label">
+                  <i class="fas fa-tags me-2"></i>
+                  Transaction Type
+                </label>
+                <select 
+                  id="transactionType"
+                  class="form-control select-custom" 
+                  [(ngModel)]="selectedType"
+                  (change)="onTypeChange()">
+                  <option *ngFor="let type of transactionTypes" [value]="type">
+                    {{ type }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+          <div class="results-summary mt-4">
+            <div class="summary-card">
+              <div class="summary-icon">
+                <i class="fas fa-chart-bar"></i>
+              </div>
+              <div class="summary-text">
+                <span class="summary-label">Results:</span>
+                <span class="summary-value">{{ filteredTransactions.length }} of {{ allTransactions.length }} transactions</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Transactions List -->
+    <div class="transactions-section slide-up">
+      <div class="card card-custom" *ngIf="filteredTransactions.length > 0">
+        <div class="card-body p-0">
+          <div class="transactions-header p-4 border-bottom">
+            <div class="section-title">
+              <div class="section-icon">
+                <i class="fas fa-list"></i>
+              </div>
+              <h5 class="mb-0">All Transactions</h5>
+            </div>
+            <div class="transaction-stats">
+              <span class="stats-badge">
+                <i class="fas fa-receipt me-1"></i>
+                {{ filteredTransactions.length }} transactions
+              </span>
+            </div>
+          </div>
+          
+          <div class="transactions-list">
+            <div 
+              class="transaction-item"
+              *ngFor="let transaction of filteredTransactions; trackBy: trackByTransactionId">
+              <div class="transaction-icon" [class]="getTransactionClass(transaction.type)">
+                <i [class]="getTransactionIcon(transaction.type)"></i>
+              </div>
+              
+              <div class="transaction-details">
+                <div class="transaction-description">{{ transaction.description }}</div>
+                <div class="transaction-meta">
+                  <span class="transaction-date">
+                    <i class="fas fa-calendar-alt"></i>
+                    {{ transaction.date | date:'MMM d, y' }}
+                  </span>
+                  <span class="transaction-time">
+                    {{ transaction.date | date:'h:mm a' }}
+                  </span>
+                  <span class="transaction-badge" [class]="getBadgeClass(transaction.type)">
+                    {{ transaction.type }}
+                  </span>
+                </div>
+              </div>
+              
+              <div class="transaction-amount-section">
+                <div class="transaction-amount" [class]="getTransactionClass(transaction.type)">
+                  {{ formatAmount(transaction.amount, transaction.type) }}
+                </div>
+                <div class="transaction-id">
+                  ID: {{ transaction.id }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- No Results State -->
+      <div class="empty-state-card" *ngIf="filteredTransactions.length === 0">
+        <div class="card card-custom">
+          <div class="card-body text-center p-5">
+            <div class="empty-state">
+              <div class="empty-icon">
+                <i class="fas fa-search"></i>
+              </div>
+              <h5 class="empty-title">No transactions found</h5>
+              <p class="empty-text">Try adjusting your search or filter criteria to find what you're looking for.</p>
+              <button class="btn btn-primary-custom" (click)="clearFilters()">
+                <i class="fas fa-refresh me-2"></i>
+                Clear Filters
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

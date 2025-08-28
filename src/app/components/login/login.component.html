@@ -1,0 +1,60 @@
+<div class="login-container">
+  <div class="login-card">
+    <!-- Bank Logo and Title -->
+    <div class="logo-section">
+      <div class="logo-icon">
+        <i class="fas fa-credit-card"></i>
+      </div>
+      <h2 class="bank-title">SecureBank</h2>
+      <p class="subtitle">Sign in to access your banking dashboard</p>
+    </div>
+
+    <!-- Login Form -->
+    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
+      <div class="form-group">
+        <label for="username" class="form-label">Username</label>
+        <input 
+          type="text" 
+          id="username" 
+          name="username" 
+          [(ngModel)]="username" 
+          placeholder="Enter your username"
+          class="form-control"
+          required>
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          [(ngModel)]="password" 
+          placeholder="Enter your password"
+          class="form-control"
+          required>
+      </div>
+
+      <button type="submit" class="btn-signin" [disabled]="!loginForm.valid">
+        Sign In
+      </button>
+    </form>
+
+    <!-- Demo Credentials -->
+    <div class="demo-credentials">
+      <h4 class="demo-title">Demo Credentials:</h4>
+      <div class="credential-item" (click)="loginAsAdmin()">
+        <span class="credential-type admin">
+          <i class="fas fa-circle"></i> Admin:
+        </span>
+        <span class="credential-value">admin / admin123</span>
+      </div>
+      <div class="credential-item" (click)="loginAsUser()">
+        <span class="credential-type user">
+          <i class="fas fa-circle"></i> User:
+        </span>
+        <span class="credential-value">user1 / user123</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,133 @@
+<div class="my-account-container fade-in">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="header-icon">
+          <i class="fas fa-user-circle"></i>
+        </div>
+        <div class="header-text">
+          <h1 class="page-title">My Account</h1>
+          <p class="page-subtitle">Manage your banking account and view recent activity</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- Account Overview Section -->
+    <div class="overview-section slide-up">
+      <div class="row g-4">
+        <!-- Account Info Card -->
+        <div class="col-lg-6">
+          <div class="card card-custom h-100">
+            <div class="card-body p-4">
+              <div class="card-header-custom mb-4">
+                <div class="card-icon bg-primary">
+                  <i class="fas fa-university"></i>
+                </div>
+                <h5 class="card-title mb-0">Account Information</h5>
+              </div>
+              <div class="account-details">
+                <div class="detail-item">
+                  <span class="detail-label">Account Number</span>
+                  <span class="detail-value">{{ accountNumber }}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Account Type</span>
+                  <span class="detail-value">{{ accountType }}</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Branch</span>
+                  <span class="detail-value">Main Branch</span>
+                </div>
+                <div class="detail-item">
+                  <span class="detail-label">Status</span>
+                  <span class="status-badge active">Active</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Balance Card -->
+        <div class="col-lg-6">
+          <div class="card card-custom balance-card h-100">
+            <div class="card-body p-4 position-relative overflow-hidden">
+              <div class="balance-bg-shape"></div>
+              <div class="card-header-custom mb-4">
+                <div class="card-icon bg-success">
+                  <i class="fas fa-wallet"></i>
+                </div>
+                <h5 class="card-title mb-0">Current Balance</h5>
+              </div>
+              <div class="balance-display">
+                <div class="balance-amount">
+                  <span class="currency">$</span>
+                  <span class="amount">{{ currentBalance | number:'1.0-0' }}</span>
+                  <span class="cents">.00</span>
+                </div>
+                <div class="balance-change positive">
+                  <i class="fas fa-arrow-up"></i>
+                  <span>+2.5% from last month</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Transactions Section -->
+    <div class="transactions-section slide-up">
+      <div class="card card-custom">
+        <div class="card-body p-4">
+          <div class="section-header mb-4">
+            <div class="section-title">
+              <div class="section-icon">
+                <i class="fas fa-history"></i>
+              </div>
+              <h5 class="mb-0">Recent Transactions</h5>
+            </div>
+            <a routerLink="/user/transactions" class="btn btn-outline-primary btn-sm">
+              <i class="fas fa-external-link-alt me-2"></i>
+              View All
+            </a>
+          </div>
+          
+          <div class="transactions-list">
+            <div class="transaction-item" 
+                 *ngFor="let transaction of recentTransactions">
+              <div class="transaction-icon" [class]="getTransactionClass(transaction.category)">
+                <i [class]="getTransactionIcon(transaction.category)"></i>
+              </div>
+              <div class="transaction-details">
+                <div class="transaction-description">{{ transaction.description }}</div>
+                <div class="transaction-meta">
+                  <span class="transaction-date">
+                    <i class="fas fa-calendar-alt"></i>
+                    {{ transaction.date | date:'MMM d, y' }}
+                  </span>
+                  <span class="transaction-time">
+                    {{ transaction.date | date:'h:mm a' }}
+                  </span>
+                </div>
+              </div>
+              <div class="transaction-amount" [class]="getTransactionClass(transaction.category)">
+                {{ formatAmount(transaction.amount, transaction.category) }}
+              </div>
+            </div>
+          </div>
+
+          <div class="empty-state" *ngIf="recentTransactions.length === 0">
+            <div class="empty-icon">
+              <i class="fas fa-receipt"></i>
+            </div>
+            <h6>No Recent Transactions</h6>
+            <p class="text-muted mb-0">Your recent transactions will appear here</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

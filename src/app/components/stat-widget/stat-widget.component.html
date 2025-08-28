@@ -1,0 +1,11 @@
+<div class="stat-widget text-center p-3">
+  <div class="icon-wrapper mb-3" [class]="'text-' + color">
+    <i [class]="icon + ' fa-2x'"></i>
+  </div>
+  <div class="stat-content">
+    <h4 class="stat-value mb-1" [class]="'text-' + color">
+      <span *ngIf="currency && color !== 'info'">{{ currency }} </span>{{ value }}
+    </h4>
+    <p class="stat-label text-muted mb-0">{{ label }}</p>
+  </div>
+</div>
