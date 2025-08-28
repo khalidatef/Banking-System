@@ -1,1 +1,21 @@
-<p>login works!</p>
+<h2>Login</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  <label for="username">Username</label>
+  <input id="username" formControlName="username" />
+
+  <div *ngIf="form.controls.username.touched && form.controls.username.invalid">
+    Username is required
+  </div>
+
+  <label for="password">Password</label>
+  <input id="password" type="password" formControlName="password" />
+
+  <div *ngIf="form.controls.password.touched && form.controls.password.invalid">
+    Password is required (min 3)
+  </div>
+
+  <button type="submit">Login</button>
+</form>
+
+<p *ngIf="msg">{{ msg }}</p>
