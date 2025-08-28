@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { LoginComponent } from './components/login/login.component';
+import { roleGuard } from './guards/role.guard';
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
@@ -23,6 +24,7 @@ export const routes: Routes = [
   {
     path: 'user',
     component: UserLayoutComponent,
+    canActivate: [roleGuard],
     children: [
       { path: '', redirectTo: 'user-home', pathMatch: 'full' },
       { path: 'user-home', component: UserDashboardComponent, title: 'Home' },
@@ -42,6 +44,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminLayoutComponent,
+    canActivate: [roleGuard],
     children: [
       { path: '', redirectTo: 'admin-home', pathMatch: 'full' },
       { path: 'admin-home', component: AdminDashboardComponent, title: 'Home' },
