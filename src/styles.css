@@ -1,20 +1,17 @@
-
-/* You can add global styles to this file, and also import other style files */
-:root{
-  --brand-primary:#1976d2;
-  --bg:#e6f0ff;
-  --card:#ffffff;
-  --text:#0f172a;
-  --muted:#64748b;
+html,
+body {
+  height: 100%;
 }
-html,body{height:100%}
-body{
-  background:var(--bg);
-  color:var(--text);
+body {
+  background: var(--bg);
+  color: var(--text);
   font-family: Roboto, Arial, sans-serif;
-=======
+}
 :root {
   --main-color: #3b82f6;
-  /* --secondary-color: #2ecc71; */
-
+  --secondary-color: #2ecc71;
+  --bg: #fafbfd;
+  --card: #ffffff;
+  --text: #2a414d;
+  --muted: #cacfd4;
 }
