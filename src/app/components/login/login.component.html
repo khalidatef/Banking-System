@@ -1,21 +1,58 @@
-<h2>Login</h2>
+<div class="auth-bg">
+    <div class="login-card">
+        <!-- logo -->
+        <div class="logo" aria-hidden="true">
+            <svg class="icon-card" viewBox="0 0 64 64" role="img" focusable="false">
+                <rect x="12" y="16" width="40" height="28" rx="5" ry="5" />
+                <line x1="12" y1="24" x2="52" y2="24" />
+            </svg>
+        </div>
 
-<form [formGroup]="form" (ngSubmit)="submit()" novalidate>
-  <label for="username">Username</label>
-  <input id="username" formControlName="username" />
+        <h2 class="brand">SecureBank</h2>
+        <p class="subtitle">Sign in to access your banking dashboard</p>
 
-  <div *ngIf="form.controls.username.touched && form.controls.username.invalid">
-    Username is required
-  </div>
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input id="username" class="form-control" placeholder="Enter your username"
+                    formControlName="username" />
+                <div *ngIf="f.username.touched && f.username.invalid" class="hint-err">
+                    Username is required
+                </div>
+            </div>
 
-  <label for="password">Password</label>
-  <input id="password" type="password" formControlName="password" />
+            <div class="mb-4">
+                <label for="password" class="form-label">Password</label>
+                <input id="password" type="password" class="form-control" placeholder="Enter your password"
+                    formControlName="password" />
+                <div *ngIf="f.password.touched && f.password.invalid" class="hint-err">
+                    Password is required (minimum 3 Letters)
+                </div>
+            </div>
 
-  <div *ngIf="form.controls.password.touched && form.controls.password.invalid">
-    Password is required (min 3)
-  </div>
 
-  <button type="submit">Login</button>
-</form>
+            <button type="submit" class="btn-primary w-100" [disabled]="form.invalid || loading">
+                {{ loading ? 'Signing in…' : 'Sign In' }}
+            </button>
+        </form>
 
-<p *ngIf="msg">{{ msg }}</p>
+        <p *ngIf="msg" class="error-msg">{{ msg }}</p>
+
+        <!-- Demo credentials -->
+        <div class="demo-box">
+            <p class="demo-title">Demo Credentials:</p>
+
+            <div class="demo-item">
+                <span class="dot dot-admin"></span>
+                <span class="role">Admin:</span>
+                <span class="cred">{{ demoAdmin?.username }} / {{ demoAdmin?.password }}</span>
+            </div>
+
+            <div class="demo-item">
+                <span class="dot dot-user"></span>
+                <span class="role">User:</span>
+                <span class="cred">{{ demoUser?.username }} / {{ demoUser?.password }}</span>
+            </div>
+        </div>
+    </div>
+</div>
