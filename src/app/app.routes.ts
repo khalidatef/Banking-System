@@ -10,7 +10,7 @@ import { AdminDashboardComponent } from './components/admin-dashboard/admin-dash
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'user', pathMatch: 'full' },
+  { path: '', redirectTo: 'admin/admin-panel', pathMatch: 'full' },
   {
     path: 'user',
     component: UserLayoutComponent,

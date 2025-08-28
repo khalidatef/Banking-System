@@ -13,5 +13,8 @@ body {
   --bg: #fafbfd;
   --card: #ffffff;
   --text: #2a414d;
-  --muted: #cacfd4;
+  --muted: #888b8f;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
