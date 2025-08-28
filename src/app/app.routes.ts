@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import { LoginComponent } from './components/login/login.component';
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
@@ -10,7 +12,14 @@ import { AdminDashboardComponent } from './components/admin-dashboard/admin-dash
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'admin/admin-panel', pathMatch: 'full' },
+  { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
+  {
+    path: 'auth',
+    component: AuthLayoutComponent,
+    children: [
+      { path: 'login', component: LoginComponent, title: 'Login' },
+    ],
+  },
   {
     path: 'user',
     component: UserLayoutComponent,
