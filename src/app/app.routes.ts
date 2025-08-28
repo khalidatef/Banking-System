@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { Component } from '@angular/core';
 import { UserDashboardComponent } from './components/user-dashboard/user-dashboard.component';
 import { MyAccountComponent } from './components/my-account/my-account.component';
 import { TransactionsComponent } from './components/transactions/transactions.component';
@@ -11,6 +10,7 @@ import { AdminDashboardComponent } from './components/admin-dashboard/admin-dash
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 
 export const routes: Routes = [
+{path:"" , redirectTo:"user", pathMatch:'full'},
     {path:'user' , component: UserLayoutComponent , children:[
         {path:"" , redirectTo:"user-home", pathMatch:'full'},
         {path:'user-home' , component : UserDashboardComponent ,title:"Home"},
