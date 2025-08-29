@@ -1,18 +1,23 @@
-import { CanActivateFn, Router, UrlTree } from '@angular/router';
 import { inject } from '@angular/core';
+import { CanActivateFn, Router, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-export const roleGuard: CanActivateFn = (route, state): boolean | UrlTree => {
+export const roleGuard: CanActivateFn = (
+  route: ActivatedRouteSnapshot,
+  _state: RouterStateSnapshot
+): boolean | UrlTree => {
   const auth = inject(AuthService);
   const router = inject(Router);
 
-  const role = auth.getRole();
-  if (!role) return router.createUrlTree(['/auth/login']);
+  const isLogged = auth.isLoggedIn();
+  const role = auth.getRole(); 
+  const expected = route.data?.['role'] as 'Admin' | 'User' | undefined;
 
-  const url = state.url || '';
-  if (url.startsWith('/admin') && role !== 'Admin') return router.createUrlTree(['/user']);
-  if (url.startsWith('/user')  && role !== 'User')  return router.createUrlTree(['/admin']);
+  if (!isLogged) return router.parseUrl('/auth/login');
+
+  if (expected && role !== expected) {
+    return router.parseUrl(role === 'Admin' ? '/admin' : '/user');
+  }
 
   return true;
 };
-

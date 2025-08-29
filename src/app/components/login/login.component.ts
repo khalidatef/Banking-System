@@ -16,7 +16,6 @@ export class LoginComponent {
   msg = '';
   loading = false;
 
-   // pick first admin/user from the dataset
   demoAdmin = users.find(u => u.role === 'Admin');
   demoUser  = users.find(u => u.role === 'User');
 
@@ -24,14 +23,12 @@ export class LoginComponent {
     username: ['', [Validators.required]],
     password: ['', [Validators.required, Validators.minLength(3)]],
   });
-  constructor(private fb: FormBuilder, private auth: AuthService, private router: Router) { }
 
-  // redirect if already logged in
-  ngOnInit(): void {
-    const role = this.auth.getRole();
-    if (role === 'Admin') this.router.navigate(['/admin']);
-    else if (role === 'User') this.router.navigate(['/user']);
-  }
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router
+  ) {}
 
   submit() {
     this.msg = '';
@@ -42,20 +39,23 @@ export class LoginComponent {
 
     this.loading = true;
     const { username, password } = this.form.value as { username: string; password: string };
-    const role = this.auth.login(username, password);
+
+    const role = this.auth.login(username, password); 
 
     if (!role) {
-      this.msg = 'Invalid credentials';
+      // messages
+      this.msg = this.auth.lastError === 'INACTIVE'
+        ? 'Account is inactive. Please contact the admin.'
+        : 'Invalid username or password.';
       this.loading = false;
       return;
     }
 
-    // redirect by role
-    this.router.navigate([role === 'Admin' ? '/admin' : '/user']).finally(() => {
-      this.loading = false;
-    });
+    // route by role
+    this.router
+      .navigate([role === 'Admin' ? '/admin' : '/user'])
+      .finally(() => (this.loading = false));
   }
 
-  // helpers for template
   get f() { return this.form.controls; }
 }

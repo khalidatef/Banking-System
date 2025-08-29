@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, inject, PLATFORM_ID } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+
 @Component({
   selector: 'app-auth-layout',
   standalone: true,
@@ -9,5 +10,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrls: ['./auth-layout.component.css'],
 })
 export class AuthLayoutComponent {
-
+  isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
 }
