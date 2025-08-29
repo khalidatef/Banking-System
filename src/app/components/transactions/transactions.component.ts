@@ -24,28 +24,100 @@ export class TransactionsComponent implements OnInit {
   
   allTransactions: Transaction[] = [
     {
-      id: 1,
-      description: 'Salary deposit',
-      amount: 1000.00,
-      date: new Date('2024-01-15'),
+      id: 1001,
+      description: 'Salary Credit - Bank Masr',
+      amount: 5000.00,
+      date: new Date('2025-01-29T09:30:00'),
       type: 'Credit',
-      category: 'Income'
+      category: 'Salary'
     },
     {
-      id: 2,
-      description: 'Grocery shopping',
-      amount: 250.00,
-      date: new Date('2024-01-14'),
+      id: 1002,
+      description: 'Online Shopping - Amazon',
+      amount: 250.75,
+      date: new Date('2025-01-28T14:22:00'),
       type: 'Debit',
       category: 'Shopping'
     },
     {
-      id: 3,
-      description: 'Freelance payment',
-      amount: 500.00,
-      date: new Date('2024-01-13'),
+      id: 1003,
+      description: 'Freelance Payment - Upwork',
+      amount: 1200.00,
+      date: new Date('2025-01-27T11:45:00'),
       type: 'Credit',
-      category: 'Income'
+      category: 'Freelance'
+    },
+    {
+      id: 1004,
+      description: 'Grocery Store - Carrefour',
+      amount: 180.50,
+      date: new Date('2025-01-26T16:15:00'),
+      type: 'Debit',
+      category: 'Groceries'
+    },
+    {
+      id: 1005,
+      description: 'Transfer from Ahmed Mohamed',
+      amount: 500.00,
+      date: new Date('2025-01-25T10:30:00'),
+      type: 'Credit',
+      category: 'Transfer'
+    },
+    {
+      id: 1006,
+      description: 'Utility Bill - Electricity',
+      amount: 120.25,
+      date: new Date('2025-01-24T08:00:00'),
+      type: 'Debit',
+      category: 'Utilities'
+    },
+    {
+      id: 1007,
+      description: 'Investment Return',
+      amount: 300.00,
+      date: new Date('2025-01-23T12:00:00'),
+      type: 'Credit',
+      category: 'Investment'
+    },
+    {
+      id: 1008,
+      description: 'Restaurant - Pizza Hut',
+      amount: 85.00,
+      date: new Date('2025-01-22T19:30:00'),
+      type: 'Debit',
+      category: 'Dining'
+    },
+    {
+      id: 1009,
+      description: 'Bonus Payment',
+      amount: 1500.00,
+      date: new Date('2025-01-21T09:00:00'),
+      type: 'Credit',
+      category: 'Bonus'
+    },
+    {
+      id: 1010,
+      description: 'Gas Station - Shell',
+      amount: 45.60,
+      date: new Date('2025-01-20T07:45:00'),
+      type: 'Debit',
+      category: 'Transportation'
+    },
+    {
+      id: 1011,
+      description: 'ATM Withdrawal',
+      amount: 200.00,
+      date: new Date('2025-01-19T15:20:00'),
+      type: 'Debit',
+      category: 'Cash'
+    },
+    {
+      id: 1012,
+      description: 'Dividend Payment',
+      amount: 75.00,
+      date: new Date('2025-01-18T10:15:00'),
+      type: 'Credit',
+      category: 'Investment'
     }
   ];
   

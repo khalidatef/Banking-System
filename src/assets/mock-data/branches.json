@@ -1,0 +1,160 @@
+{
+  "branches": [
+    {
+      "code": "BR001",
+      "name": "Cairo Main Branch",
+      "address": {
+        "street": "123 Nile Corniche",
+        "city": "Cairo",
+        "state": "Cairo Governorate",
+        "zipCode": "11511",
+        "country": "Egypt"
+      },
+      "phone": "+20-2-25794000",
+      "email": "cairo.main@bankmasr.com",
+      "manager": "Dr. Khaled Ibrahim",
+      "services": ["Personal Banking", "Business Banking", "Investment", "Loans", "Safe Deposit"],
+      "workingHours": {
+        "sunday": "09:00-15:00",
+        "monday": "09:00-15:00",
+        "tuesday": "09:00-15:00",
+        "wednesday": "09:00-15:00",
+        "thursday": "09:00-15:00",
+        "friday": "Closed",
+        "saturday": "10:00-14:00"
+      },
+      "atmCount": 5,
+      "isHeadquarters": true
+    },
+    {
+      "code": "BR002",
+      "name": "Tahrir Branch",
+      "address": {
+        "street": "456 Tahrir Square",
+        "city": "Cairo",
+        "state": "Cairo Governorate",
+        "zipCode": "11512",
+        "country": "Egypt"
+      },
+      "phone": "+20-2-25794100",
+      "email": "tahrir@bankmasr.com",
+      "manager": "Ms. Nadia Hassan",
+      "services": ["Personal Banking", "Business Banking", "Currency Exchange", "Loans"],
+      "workingHours": {
+        "sunday": "09:00-15:00",
+        "monday": "09:00-15:00",
+        "tuesday": "09:00-15:00",
+        "wednesday": "09:00-15:00",
+        "thursday": "09:00-15:00",
+        "friday": "Closed",
+        "saturday": "10:00-14:00"
+      },
+      "atmCount": 3,
+      "isHeadquarters": false
+    },
+    {
+      "code": "BR003",
+      "name": "Zamalek Branch",
+      "address": {
+        "street": "789 Zamalek District",
+        "city": "Cairo",
+        "state": "Cairo Governorate",
+        "zipCode": "11513",
+        "country": "Egypt"
+      },
+      "phone": "+20-2-25794200",
+      "email": "zamalek@bankmasr.com",
+      "manager": "Mr. Ahmed Farouk",
+      "services": ["Personal Banking", "Investment", "Private Banking", "Safe Deposit"],
+      "workingHours": {
+        "sunday": "09:00-15:00",
+        "monday": "09:00-15:00",
+        "tuesday": "09:00-15:00",
+        "wednesday": "09:00-15:00",
+        "thursday": "09:00-15:00",
+        "friday": "Closed",
+        "saturday": "10:00-14:00"
+      },
+      "atmCount": 2,
+      "isHeadquarters": false
+    },
+    {
+      "code": "BR004",
+      "name": "Maadi Branch",
+      "address": {
+        "street": "321 Maadi Street",
+        "city": "Cairo",
+        "state": "Cairo Governorate",
+        "zipCode": "11514",
+        "country": "Egypt"
+      },
+      "phone": "+20-2-25794300",
+      "email": "maadi@bankmasr.com",
+      "manager": "Dr. Laila Mahmoud",
+      "services": ["Personal Banking", "Business Banking", "Loans", "Insurance"],
+      "workingHours": {
+        "sunday": "09:00-15:00",
+        "monday": "09:00-15:00",
+        "tuesday": "09:00-15:00",
+        "wednesday": "09:00-15:00",
+        "thursday": "09:00-15:00",
+        "friday": "Closed",
+        "saturday": "10:00-14:00"
+      },
+      "atmCount": 3,
+      "isHeadquarters": false
+    },
+    {
+      "code": "BR005",
+      "name": "New Cairo Branch",
+      "address": {
+        "street": "654 New Cairo",
+        "city": "Cairo",
+        "state": "Cairo Governorate",
+        "zipCode": "11835",
+        "country": "Egypt"
+      },
+      "phone": "+20-2-25794400",
+      "email": "newcairo@bankmasr.com",
+      "manager": "Mr. Sherif Ali",
+      "services": ["Personal Banking", "Business Banking", "Investment", "Real Estate Loans"],
+      "workingHours": {
+        "sunday": "09:00-15:00",
+        "monday": "09:00-15:00",
+        "tuesday": "09:00-15:00",
+        "wednesday": "09:00-15:00",
+        "thursday": "09:00-15:00",
+        "friday": "Closed",
+        "saturday": "10:00-14:00"
+      },
+      "atmCount": 4,
+      "isHeadquarters": false
+    },
+    {
+      "code": "BR006",
+      "name": "Heliopolis Branch",
+      "address": {
+        "street": "987 Heliopolis",
+        "city": "Cairo",
+        "state": "Cairo Governorate",
+        "zipCode": "11757",
+        "country": "Egypt"
+      },
+      "phone": "+20-2-25794500",
+      "email": "heliopolis@bankmasr.com",
+      "manager": "Ms. Rania Mostafa",
+      "services": ["Personal Banking", "Business Banking", "Currency Exchange", "Investment"],
+      "workingHours": {
+        "sunday": "09:00-15:00",
+        "monday": "09:00-15:00",
+        "tuesday": "09:00-15:00",
+        "wednesday": "09:00-15:00",
+        "thursday": "09:00-15:00",
+        "friday": "Closed",
+        "saturday": "10:00-14:00"
+      },
+      "atmCount": 3,
+      "isHeadquarters": false
+    }
+  ]
+}

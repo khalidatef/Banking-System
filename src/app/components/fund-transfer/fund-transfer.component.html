@@ -1,1 +1,211 @@
-<p>fund-transfer works!</p>
+<!-- Fund Transfer Page -->
+<div class="fund-transfer-container fade-in">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="header-content">
+        <div class="header-icon">
+          <i class="fas fa-exchange-alt"></i>
+        </div>
+        <div class="header-text">
+          <h1 class="page-title">Fund Transfer</h1>
+          <p class="page-subtitle">Transfer money between accounts securely</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row g-4">
+      <!-- Transfer Form -->
+      <div class="col-lg-8">
+        <div class="transfer-card slide-up">
+          <div class="card-header-custom">
+            <div class="section-title">
+              <div class="section-icon">
+                <i class="fas fa-paper-plane"></i>
+              </div>
+              <h4 class="section-heading">Transfer Details</h4>
+            </div>
+            <p class="section-subtitle">Enter the transfer information below</p>
+          </div>
+
+          <form [formGroup]="transferForm" (ngSubmit)="onSubmit()" class="transfer-form">
+            <!-- From Account -->
+            <div class="form-section slide-up" style="animation-delay: 0.1s;">
+              <label class="form-label">
+                <i class="fas fa-wallet me-2"></i>
+                From Account
+              </label>
+              <div class="account-selector">
+                <select formControlName="fromAccount" class="form-select account-select">
+                  <option value="">Select source account</option>
+                  <option *ngFor="let account of userAccounts" [value]="account.id">
+                    {{ account.name }} - {{ account.balance | currency:'USD':'symbol':'1.2-2' }}
+                  </option>
+                </select>
+                <div class="select-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="form-error" *ngIf="hasError('fromAccount')">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                {{ getErrorMessage('fromAccount') }}
+              </div>
+            </div>
+
+            <!-- To Account -->
+            <div class="form-section slide-up" style="animation-delay: 0.2s;">
+              <label class="form-label">
+                <i class="fas fa-user me-2"></i>
+                To Account
+              </label>
+              <div class="account-selector">
+                <select formControlName="toAccount" class="form-select account-select">
+                  <option value="">Select destination account</option>
+                  <option *ngFor="let account of destinationAccounts" [value]="account.id">
+                    {{ account.name }} - {{ account.accountNumber }}
+                  </option>
+                </select>
+                <div class="select-icon">
+                  <i class="fas fa-chevron-down"></i>
+                </div>
+              </div>
+              <div class="form-error" *ngIf="hasError('toAccount')">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                {{ getErrorMessage('toAccount') }}
+              </div>
+            </div>
+
+            <!-- Amount -->
+            <div class="form-section slide-up" style="animation-delay: 0.3s;">
+              <label class="form-label">
+                <i class="fas fa-dollar-sign me-2"></i>
+                Amount
+              </label>
+              <div class="amount-input-wrapper">
+                <div class="currency-prefix">$</div>
+                <input 
+                  type="number" 
+                  formControlName="amount" 
+                  class="form-control amount-input"
+                  placeholder="0.00"
+                  step="0.01"
+                  min="0.01">
+              </div>
+              <div class="amount-info" *ngIf="transferForm.get('amount')?.value">
+                <span class="available-balance">Available: ${{ getAvailableBalance() | number:'1.2-2' }}</span>
+              </div>
+              <div class="form-error" *ngIf="hasError('amount')">
+                <i class="fas fa-exclamation-circle me-2"></i>
+                {{ getErrorMessage('amount') }}
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="form-section slide-up" style="animation-delay: 0.4s;">
+              <label class="form-label">
+                <i class="fas fa-comment me-2"></i>
+                Description (Optional)
+              </label>
+              <textarea 
+                formControlName="description" 
+                class="form-control description-input"
+                placeholder="Add a note for this transfer..."
+                rows="3"
+                maxlength="100"></textarea>
+              <div class="character-count">
+                {{ transferForm.get('description')?.value?.length || 0 }}/100
+              </div>
+            </div>
+
+            <!-- Transfer Fee Info -->
+            <div class="fee-info slide-up" style="animation-delay: 0.5s;" *ngIf="transferFee > 0">
+              <div class="fee-card">
+                <div class="fee-icon">
+                  <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="fee-details">
+                  <span class="fee-label">Transfer Fee:</span>
+                  <span class="fee-amount">${{ transferFee | number:'1.2-2' }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="form-actions slide-up" style="animation-delay: 0.6s;">
+              <button 
+                type="submit" 
+                class="btn btn-transfer"
+                [disabled]="transferForm.invalid || isProcessing"
+                [class.loading]="isProcessing">
+                <span *ngIf="!isProcessing">
+                  <i class="fas fa-paper-plane me-2"></i>
+                  Transfer Funds
+                </span>
+                <span *ngIf="isProcessing" class="loading-content">
+                  <div class="spinner"></div>
+                  Processing...
+                </span>
+              </button>
+              <button type="button" class="btn btn-cancel" (click)="resetForm()">
+                <i class="fas fa-times me-2"></i>
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Your Accounts Sidebar -->
+      <div class="col-lg-4">
+        <div class="accounts-sidebar slide-up" style="animation-delay: 0.2s;">
+          <div class="sidebar-header">
+            <h4 class="sidebar-title">
+              <i class="fas fa-credit-card me-2"></i>
+              Your Accounts
+            </h4>
+            <p class="sidebar-subtitle">Current balances for your accounts</p>
+          </div>
+
+          <div class="accounts-list">
+            <div class="account-item" *ngFor="let account of userAccounts">
+              <div class="account-icon">
+                <i class="fas fa-piggy-bank"></i>
+              </div>
+              <div class="account-info">
+                <h6 class="account-name">{{ account.name }}</h6>
+                <p class="account-type">{{ account.type }}</p>
+              </div>
+              <div class="account-balance">
+                <span class="balance-amount">${{ account.balance | number:'1.2-2' }}</span>
+                <span class="balance-label">Available</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="transfer-tips">
+            <h5 class="tips-title">
+              <i class="fas fa-lightbulb me-2"></i>
+              Transfer Tips
+            </h5>
+            <ul class="tips-list">
+              <li>
+                <i class="fas fa-shield-alt"></i>
+                All transfers are secured with bank-level encryption
+              </li>
+              <li>
+                <i class="fas fa-clock"></i>
+                Transfers between Bank Masr accounts are instant
+              </li>
+              <li>
+                <i class="fas fa-receipt"></i>
+                You'll receive a confirmation receipt after transfer
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,2 +1,27 @@
-<app-user-nav> </app-user-nav>
-<router-outlet></router-outlet>
+<!-- User Navigation -->
+<app-user-nav></app-user-nav>
+
+<!-- Main Content Area -->
+<main class="main-content" [class.sidebar-open]="sidebarOpen">
+  <!-- Content Container -->
+  <div class="content-container">
+    <!-- Page Content -->
+    <div class="page-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <div class="loading-spinner">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Toast Notifications Container -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+  <!-- Toast notifications will be dynamically added here -->
+</div>

@@ -1,1 +1,218 @@
-<p>admin-dashboard works!</p>
+<!-- Admin Welcome Header -->
+<div class="admin-welcome-header fade-in">
+  <div class="container-fluid">
+    <div class="welcome-content">
+      <div class="welcome-icon admin-icon">
+        <i class="fas fa-shield-alt"></i>
+      </div>
+      <div class="welcome-text">
+        <h1 class="welcome-title">Welcome back, {{ adminName }}!</h1>
+        <p class="welcome-subtitle">System Administrator Dashboard - Monitor and manage your banking system</p>
+        <div class="admin-badge-header">
+          <span class="badge bg-danger"><i class="fas fa-shield-alt me-1"></i>Administrator Access</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Main Admin Dashboard Content -->
+<div class="dashboard-container admin-dashboard">
+  <div class="container-fluid">
+    <!-- System Statistics Cards -->
+    <div class="row g-4 mb-5">
+      <div class="col-xl-2 col-md-4 col-sm-6" *ngFor="let stat of systemStats; let i = index">
+        <div class="stat-card slide-up" [style.animation-delay]="i * 0.1 + 's'">
+          <div class="stat-icon" [class]="'stat-' + stat.color">
+            <i [class]="stat.icon"></i>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-value">{{ stat.value }}</h3>
+            <p class="stat-label">{{ stat.label }}</p>
+            <div class="stat-trend" [class]="getTrendClass(stat.trend || 'neutral')" *ngIf="stat.trend">
+              <i [class]="getTrendIcon(stat.trend)"></i>
+              <span>{{ stat.change }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Admin Action Cards -->
+    <div class="row g-4 mb-5">
+      <div class="col-xl-4 col-md-6" *ngFor="let action of adminActions; let i = index">
+        <div class="admin-action-card slide-up" [routerLink]="action.link" [style.animation-delay]="i * 0.1 + 0.3 + 's'">
+          <div class="action-icon" [class]="'action-' + action.color">
+            <i [class]="action.icon"></i>
+          </div>
+          <div class="action-content">
+            <h3 class="action-title">{{ action.title }}</h3>
+            <p class="action-description">{{ action.description }}</p>
+            <div class="action-button">
+              <span>Manage</span>
+              <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dashboard Content Grid -->
+    <div class="row g-4">
+      <!-- System Overview -->
+      <div class="col-lg-8">
+        <div class="overview-card slide-up" style="animation-delay: 0.6s;">
+          <div class="card-header-custom">
+            <h4 class="card-title-secondary">
+              <i class="fas fa-chart-line me-2"></i>
+              System Overview
+            </h4>
+            <div class="header-actions">
+              <button class="btn btn-sm btn-outline-primary me-2">
+                <i class="fas fa-sync-alt"></i> Refresh
+              </button>
+              <button class="btn btn-sm btn-outline-secondary">
+                <i class="fas fa-download"></i> Export
+              </button>
+            </div>
+          </div>
+          <div class="overview-content">
+            <!-- Quick Stats Grid -->
+            <div class="quick-stats-grid">
+              <div class="quick-stat">
+                <div class="stat-number">{{ totalUsers }}</div>
+                <div class="stat-text">Total Users</div>
+                <div class="stat-icon-bg users"><i class="fas fa-users"></i></div>
+              </div>
+              <div class="quick-stat">
+                <div class="stat-number">{{ totalAccounts }}</div>
+                <div class="stat-text">Bank Accounts</div>
+                <div class="stat-icon-bg accounts"><i class="fas fa-university"></i></div>
+              </div>
+              <div class="quick-stat">
+                <div class="stat-number">{{ totalTransactions }}</div>
+                <div class="stat-text">Transactions</div>
+                <div class="stat-icon-bg transactions"><i class="fas fa-exchange-alt"></i></div>
+              </div>
+              <div class="quick-stat">
+                <div class="stat-number">{{ systemHealth }}</div>
+                <div class="stat-text">System Health</div>
+                <div class="stat-icon-bg health"><i class="fas fa-heartbeat"></i></div>
+              </div>
+            </div>
+
+            <!-- System Status Indicators -->
+            <div class="system-indicators mt-4">
+              <h5 class="indicators-title">System Status</h5>
+              <div class="indicators-grid">
+                <div class="indicator">
+                  <div class="indicator-dot online"></div>
+                  <span>Database</span>
+                  <small class="text-success">Online</small>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-dot online"></div>
+                  <span>API Server</span>
+                  <small class="text-success">Operational</small>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-dot online"></div>
+                  <span>Payment Gateway</span>
+                  <small class="text-success">Connected</small>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-dot warning"></div>
+                  <span>Backup Service</span>
+                  <small class="text-warning">Slow</small>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-dot online"></div>
+                  <span>Security</span>
+                  <small class="text-success">Secure</small>
+                </div>
+                <div class="indicator">
+                  <div class="indicator-dot online"></div>
+                  <span>Monitoring</span>
+                  <small class="text-success">Active</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent Activity & Alerts -->
+      <div class="col-lg-4">
+        <div class="activity-card slide-up" style="animation-delay: 0.7s;">
+          <div class="card-header-custom">
+            <h4 class="card-title-secondary">
+              <i class="fas fa-bell me-2"></i>
+              Recent Activity
+            </h4>
+            <button class="btn btn-link-custom">
+              View All <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+          <div class="activity-list">
+            <div class="activity-item" *ngFor="let activity of recentActivities">
+              <div class="activity-icon" [class]="getActivityColor(activity)">
+                <i [class]="getActivityIcon(activity)"></i>
+              </div>
+              <div class="activity-details">
+                <h6 class="activity-title">{{ activity.title }}</h6>
+                <p class="activity-description">{{ activity.description }}</p>
+                <small class="activity-time">{{ getTimeAgo(activity.time) }}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions Panel -->
+        <div class="quick-actions-card slide-up" style="animation-delay: 0.8s;">
+          <div class="card-header-custom">
+            <h4 class="card-title-secondary">
+              <i class="fas fa-bolt me-2"></i>
+              Quick Actions
+            </h4>
+          </div>
+          <div class="quick-actions-grid">
+            <button class="quick-action-btn" routerLink="/admin/users">
+              <i class="fas fa-user-plus"></i>
+              <span>Add User</span>
+            </button>
+            <button class="quick-action-btn" routerLink="/admin/accounts">
+              <i class="fas fa-plus-circle"></i>
+              <span>New Account</span>
+            </button>
+            <button class="quick-action-btn" routerLink="/admin/reports">
+              <i class="fas fa-file-alt"></i>
+              <span>Generate Report</span>
+            </button>
+            <button class="quick-action-btn" routerLink="/admin/settings">
+              <i class="fas fa-cogs"></i>
+              <span>System Config</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Security Alerts (if any) -->
+    <div class="row g-4 mt-4">
+      <div class="col-12">
+        <div class="security-alert slide-up" style="animation-delay: 0.9s;">
+          <div class="alert alert-info d-flex align-items-center">
+            <i class="fas fa-shield-alt me-3 fs-4"></i>
+            <div class="flex-grow-1">
+              <h5 class="alert-heading mb-1">System Security Status</h5>
+              <p class="mb-0">All security systems are operational. Last security scan completed 2 hours ago. No threats detected.</p>
+            </div>
+            <button class="btn btn-outline-info" routerLink="/admin/security">
+              <i class="fas fa-eye me-1"></i> View Details
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

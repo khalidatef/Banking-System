@@ -1,88 +1,223 @@
-<section>
-  <div class="d-flex justify-content-between mt-5 ms-5">
-    <div class="head">
-      <h1 class="head fw-semibold">Admin Dashboard</h1>
-      <p class="sub-head">Manage users and system settings</p>
+<!-- Admin Panel Container -->
+<div class="admin-panel-container fade-in">
+  <!-- Header Section -->
+  <div class="page-header">
+    <div class="container-fluid">
+      <div class="header-content">
+        <div class="header-icon">
+          <i class="fas fa-users-cog"></i>
+        </div>
+        <div class="header-text">
+          <h1 class="page-title">Admin Panel</h1>
+          <p class="page-subtitle">Manage users and system settings</p>
+        </div>
+      </div>
     </div>
-    <div class="me-5 mt-3">
-      <button class="btn btn-primary rounded-3">
-        <i class="fa-solid fa-user-plus me-2"></i>Add User
+  </div>
+
+  <div class="container-fluid">
+    <!-- Stats Cards -->
+    <div class="row g-4 mb-5">
+      <div class="col-lg-3 col-md-6">
+        <div class="stat-card slide-up">
+          <div class="stat-icon total-users">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-number">{{ getTotalUsers() }}</h3>
+            <p class="stat-label">Total Users</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="stat-card slide-up" style="animation-delay: 0.1s;">
+          <div class="stat-icon active-users">
+            <i class="fas fa-user-check"></i>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-number">{{ getActiveUsers() }}</h3>
+            <p class="stat-label">Active Users</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="stat-card slide-up" style="animation-delay: 0.2s;">
+          <div class="stat-icon admins">
+            <i class="fas fa-user-shield"></i>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-number">{{ getAdminUsers() }}</h3>
+            <p class="stat-label">Administrators</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6">
+        <div class="stat-card slide-up" style="animation-delay: 0.3s;">
+          <div class="stat-icon inactive-users">
+            <i class="fas fa-user-times"></i>
+          </div>
+          <div class="stat-content">
+            <h3 class="stat-number">{{ getInactiveUsers() }}</h3>
+            <p class="stat-label">Inactive Users</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Management Section -->
+    <div class="management-section slide-up" style="animation-delay: 0.4s;">
+      <div class="management-card">
+        <div class="card-header">
+          <div class="header-left">
+            <div class="section-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <div class="section-info">
+              <h4 class="section-title">User Management</h4>
+              <p class="section-subtitle">View and manage all registered users</p>
+            </div>
+          </div>
+          <div class="header-actions">
+            <button class="btn btn-add-user" (click)="openAddUserModal()">
+              <i class="fas fa-user-plus me-2"></i>
+              Add User
+            </button>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <div class="table-responsive">
+            <table class="users-table">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Contact</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of users; trackBy: trackByUsername" class="user-row">
+                  <td>
+                    <div class="user-info">
+                      <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                      </div>
+                      <div class="user-details">
+                        <h6 class="user-name">{{ user.username }}</h6>
+                        <span class="user-id">ID: {{ user.id || 'N/A' }}</span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="contact-info">
+                      <div class="email">
+                        <i class="fas fa-envelope me-2"></i>
+                        {{ user.email }}
+                      </div>
+                      <div class="phone">
+                        <i class="fas fa-phone me-2"></i>
+                        {{ user.phone }}
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span class="role-badge" [class]="getRoleClass(user.role)">
+                      <i [class]="getRoleIcon(user.role)"></i>
+                      {{ user.role }}
+                    </span>
+                  </td>
+                  <td>
+                    <span class="status-badge" [class]="getStatusClass(user.status)">
+                      <div class="status-indicator" [class]="getStatusIndicator(user.status)"></div>
+                      {{ user.status }}
+                    </span>
+                  </td>
+                  <td>
+                    <div class="action-buttons">
+                      <button 
+                        class="btn-action btn-toggle"
+                        [class]="user.status === 'Active' ? 'deactivate' : 'activate'"
+                        (click)="toggleStatus(user)"
+                        [title]="user.status === 'Active' ? 'Deactivate User' : 'Activate User'">
+                        <i [class]="user.status === 'Active' ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+                      </button>
+                      <button 
+                        class="btn-action btn-edit"
+                        (click)="editUser(user)"
+                        title="Edit User">
+                        <i class="fas fa-edit"></i>
+                      </button>
+                      <button 
+                        class="btn-action btn-delete"
+                        (click)="deleteUser(user)"
+                        title="Delete User">
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit User Modal -->
+<div class="modal-overlay" *ngIf="showEditModal" (click)="closeEditModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h5 class="modal-title">
+        <i class="fas fa-user-edit me-2"></i>
+        Edit User
+      </h5>
+      <button class="btn-close" (click)="closeEditModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="modal-body" *ngIf="selectedUser">
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          [(ngModel)]="selectedUser.username" 
+          readonly>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input 
+          type="email" 
+          class="form-control" 
+          [(ngModel)]="selectedUser.email">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone</label>
+        <input 
+          type="text" 
+          class="form-control" 
+          [(ngModel)]="selectedUser.phone">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Role</label>
+        <select class="form-control" [(ngModel)]="selectedUser.role">
+          <option value="Admin">Admin</option>
+          <option value="User">User</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-cancel" (click)="closeEditModal()">
+        Cancel
+      </button>
+      <button class="btn btn-save" (click)="saveUser()">
+        <i class="fas fa-save me-2"></i>
+        Update User
       </button>
     </div>
   </div>
-  <div class="table-card-style ms-5 mt-5">
-    <div class="head mb-4">
-      <h1 class="head fw-semibold">
-        <i class="fa-solid fa-users me-3"></i>User Management
-      </h1>
-      <p class="sub-head">View and manage all registred users</p>
-    </div>
-    <div class="row">
-      <table class="table fw-medium">
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Phone</th>
-            <th>Role</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (user of users; track user) {
-          <tr>
-            <td>{{ user.username }}</td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.phone }}</td>
-            <td>
-              <span
-                class="badge"
-                [ngClass]="user.role === 'Admin' ? 'bg-primary' : 'bg-success'"
-              >
-                {{ user.role }}
-              </span>
-            </td>
-            <td>
-              <span
-                class="badge"
-                [ngClass]="
-                  user.status === 'Active' ? 'bg-primary' : 'bg-danger'
-                "
-              >
-                {{ user.status }}
-              </span>
-            </td>
-            <td>
-              <button
-                class="btn button btn-sm me-1 rounded-3 text-dark fw-medium"
-                (click)="toggleStatus(user)"
-              >
-                <i
-                  [ngClass]="user.status == 'Active' ? 'fa fa-eye' : 'fa far fa-eye-slash'"
-                ></i>
-
-                {{ user.status === "Active" ? "Deactivate" : "Activate" }}
-              </button>
-
-              <button
-                class="btn button btn-sm me-1 rounded-3 text-dark fw-medium"
-                (click)="editUser(user)"
-              >
-                <i class="fa-solid fa-pen-to-square"></i>
-              </button>
-
-              <button
-                class="btn button btn-sm rounded-3 text-dark fw-medium"
-                (click)="deleteUser(user)"
-              >
-                <i class="fa fa-trash"></i>
-              </button>
-            </td>
-          </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
+</div>

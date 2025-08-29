@@ -1,0 +1,136 @@
+{
+  "users": [
+    {
+      "id": "USR001",
+      "username": "admin",
+      "email": "admin@bankmasr.com",
+      "phone": "+20-1234567890",
+      "role": "Admin",
+      "status": "Active",
+      "firstName": "Ahmed",
+      "lastName": "Hassan",
+      "dateOfBirth": "1985-03-15",
+      "nationalId": "29503151234567",
+      "address": {
+        "street": "123 Nile Corniche",
+        "city": "Cairo",
+        "state": "Cairo Governorate",
+        "zipCode": "11511",
+        "country": "Egypt"
+      },
+      "createdAt": "2023-01-15T09:00:00Z",
+      "lastLogin": "2025-01-29T14:30:00Z",
+      "profileImage": "/assets/images/users/admin.jpg"
+    },
+    {
+      "id": "USR002",
+      "username": "user1",
+      "email": "mohamed.ali@gmail.com",
+      "phone": "+20-1098765432",
+      "role": "User",
+      "status": "Active",
+      "firstName": "Mohamed",
+      "lastName": "Ali",
+      "dateOfBirth": "1990-07-22",
+      "nationalId": "29007221234568",
+      "address": {
+        "street": "456 Tahrir Square",
+        "city": "Cairo",
+        "state": "Cairo Governorate",
+        "zipCode": "11512",
+        "country": "Egypt"
+      },
+      "createdAt": "2023-02-10T10:15:00Z",
+      "lastLogin": "2025-01-29T16:45:00Z",
+      "profileImage": "/assets/images/users/user1.jpg"
+    },
+    {
+      "id": "USR003",
+      "username": "user2",
+      "email": "fatma.ahmed@yahoo.com",
+      "phone": "+20-1567890123",
+      "role": "User",
+      "status": "Active",
+      "firstName": "Fatma",
+      "lastName": "Ahmed",
+      "dateOfBirth": "1988-11-10",
+      "nationalId": "28811101234569",
+      "address": {
+        "street": "789 Zamalek District",
+        "city": "Cairo",
+        "state": "Cairo Governorate",
+        "zipCode": "11513",
+        "country": "Egypt"
+      },
+      "createdAt": "2023-03-05T14:20:00Z",
+      "lastLogin": "2025-01-29T12:30:00Z",
+      "profileImage": "/assets/images/users/user2.jpg"
+    },
+    {
+      "id": "USR004",
+      "username": "user3",
+      "email": "omar.hassan@hotmail.com",
+      "phone": "+20-1234098765",
+      "role": "User",
+      "status": "Inactive",
+      "firstName": "Omar",
+      "lastName": "Hassan",
+      "dateOfBirth": "1992-05-18",
+      "nationalId": "29205181234570",
+      "address": {
+        "street": "321 Maadi Street",
+        "city": "Cairo",
+        "state": "Cairo Governorate",
+        "zipCode": "11514",
+        "country": "Egypt"
+      },
+      "createdAt": "2023-04-12T11:30:00Z",
+      "lastLogin": "2024-12-15T09:15:00Z",
+      "profileImage": "/assets/images/users/user3.jpg"
+    },
+    {
+      "id": "USR005",
+      "username": "ahmed",
+      "email": "ahmed.mohamed@gmail.com",
+      "phone": "+20-1876543210",
+      "role": "User",
+      "status": "Active",
+      "firstName": "Ahmed",
+      "lastName": "Mohamed",
+      "dateOfBirth": "1995-01-25",
+      "nationalId": "29501251234571",
+      "address": {
+        "street": "654 New Cairo",
+        "city": "Cairo",
+        "state": "Cairo Governorate",
+        "zipCode": "11835",
+        "country": "Egypt"
+      },
+      "createdAt": "2023-05-20T08:45:00Z",
+      "lastLogin": "2025-01-29T18:20:00Z",
+      "profileImage": "/assets/images/users/ahmed.jpg"
+    },
+    {
+      "id": "USR006",
+      "username": "sara.mahmoud",
+      "email": "sara.mahmoud@outlook.com",
+      "phone": "+20-1654321098",
+      "role": "User",
+      "status": "Active",
+      "firstName": "Sara",
+      "lastName": "Mahmoud",
+      "dateOfBirth": "1993-08-14",
+      "nationalId": "29308141234572",
+      "address": {
+        "street": "987 Heliopolis",
+        "city": "Cairo",
+        "state": "Cairo Governorate",
+        "zipCode": "11757",
+        "country": "Egypt"
+      },
+      "createdAt": "2023-06-18T13:10:00Z",
+      "lastLogin": "2025-01-28T20:30:00Z",
+      "profileImage": "/assets/images/users/sara.jpg"
+    }
+  ]
+}

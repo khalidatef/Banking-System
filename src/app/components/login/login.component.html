@@ -1,5 +1,5 @@
 <div class="login-container">
-  <div class="login-card">
+  <div class="login-card fade-in">
     <!-- Bank Logo and Title -->
     <div class="logo-section">
       <div class="logo-icon">
@@ -9,51 +9,116 @@
       <p class="subtitle">Sign in to access your banking dashboard</p>
     </div>
 
+    <!-- Error Message -->
+    <div class="alert alert-danger" *ngIf="errorMessage" role="alert">
+      <i class="fas fa-exclamation-triangle me-2"></i>
+      {{ errorMessage }}
+    </div>
+
     <!-- Login Form -->
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" class="login-form">
-      <div class="form-group">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form" novalidate>
+      <!-- Username Field -->
+      <div class="form-group slide-up">
         <label for="username" class="form-label">Username</label>
         <input 
           type="text" 
           id="username" 
-          name="username" 
-          [(ngModel)]="username" 
+          formControlName="username"
           placeholder="Enter your username"
           class="form-control"
-          required>
+          [class.is-invalid]="hasError('username')"
+          autocomplete="username">
+        <div class="invalid-feedback" *ngIf="hasError('username')">
+          {{ getErrorMessage('username') }}
+        </div>
       </div>
 
-      <div class="form-group">
+      <!-- Password Field -->
+      <div class="form-group slide-up" style="animation-delay: 0.1s;">
         <label for="password" class="form-label">Password</label>
-        <input 
-          type="password" 
-          id="password" 
-          name="password" 
-          [(ngModel)]="password" 
-          placeholder="Enter your password"
-          class="form-control"
-          required>
+        <div class="password-input-wrapper">
+          <input 
+            [type]="passwordVisible ? 'text' : 'password'"
+            id="password" 
+            formControlName="password"
+            placeholder="Enter your password"
+            class="form-control"
+            [class.is-invalid]="hasError('password')"
+            autocomplete="current-password">
+          <button 
+            type="button" 
+            class="password-toggle-btn" 
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="passwordVisible ? 'Hide password' : 'Show password'">
+            <i [class]="passwordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+          </button>
+        </div>
+        <div class="invalid-feedback" *ngIf="hasError('password')">
+          {{ getErrorMessage('password') }}
+        </div>
       </div>
 
-      <button type="submit" class="btn-signin" [disabled]="!loginForm.valid">
-        Sign In
+      <!-- Submit Button -->
+      <button 
+        type="submit" 
+        class="btn-signin slide-up" 
+        style="animation-delay: 0.2s;"
+        [disabled]="loginForm.invalid || isLoading"
+        [class.loading]="isLoading"
+        [class.fast-loading]="!isDataLoading && isLoading">
+        <span *ngIf="!isLoading">
+          Sign In
+        </span>
+        <span *ngIf="isLoading" class="loading-content">
+          <div class="spinner" [class.fast-spinner]="!isDataLoading"></div>
+          {{ loadingMessage }}
+        </span>
       </button>
+      
+      <!-- Performance Indicator -->
+      <div *ngIf="isLoading" class="performance-indicator slide-up">
+        <div class="performance-bar">
+          <div class="performance-fill" 
+               [class.fast-auth]="!isDataLoading"
+               [class.full-auth]="isDataLoading"></div>
+        </div>
+        <small class="performance-text">
+          {{ isDataLoading ? 'Loading user data...' : 'Fast authentication active' }}
+        </small>
+      </div>
     </form>
 
     <!-- Demo Credentials -->
-    <div class="demo-credentials">
-      <h4 class="demo-title">Demo Credentials:</h4>
-      <div class="credential-item" (click)="loginAsAdmin()">
-        <span class="credential-type admin">
-          <i class="fas fa-circle"></i> Admin:
-        </span>
-        <span class="credential-value">admin / admin123</span>
+    <div class="demo-credentials slide-up" style="animation-delay: 0.3s;">
+      <h4 class="demo-title">
+        Demo Credentials:
+      </h4>
+      <div class="credential-item" (click)="loginAsAdmin()" role="button" tabindex="0">
+        <div class="credential-badge admin">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <div class="credential-info">
+          <span class="credential-type">Admin:</span>
+          <span class="credential-value">admin / admin123</span>
+        </div>
       </div>
-      <div class="credential-item" (click)="loginAsUser()">
-        <span class="credential-type user">
-          <i class="fas fa-circle"></i> User:
-        </span>
-        <span class="credential-value">user1 / user123</span>
+      <div class="credential-item" (click)="loginAsUser()" role="button" tabindex="0">
+        <div class="credential-badge user">
+          <i class="fas fa-user"></i>
+        </div>
+        <div class="credential-info">
+          <span class="credential-type">User:</span>
+          <span class="credential-value">user1 / user123</span>
+        </div>
+      </div>
+      <div class="credential-item" (click)="loginAsAhmed()" role="button" tabindex="0">
+        <div class="credential-badge user premium">
+          <i class="fas fa-star"></i>
+        </div>
+        <div class="credential-info">
+          <span class="credential-type">Premium User:</span>
+          <span class="credential-value">ahmed / ahmed123</span>
+        </div>
       </div>
     </div>
   </div>

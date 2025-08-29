@@ -1,0 +1,359 @@
+/* Main Content Area - Admin Theme */
+.main-content.admin-main {
+  min-height: calc(100vh - 80px); /* Adjust based on navbar height */
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+/* Content Container */
+.content-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* Page Content */
+.page-content {
+  padding: 0;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Loading Overlay - Admin Theme */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-spinner {
+  text-align: center;
+  position: relative;
+}
+
+.loading-spinner .spinner-border {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-width: 4px;
+  color: #dc2626;
+  animation: adminSpin 1s linear infinite;
+}
+
+@keyframes adminSpin {
+  0% {
+    transform: rotate(0deg);
+    border-color: #dc2626 transparent transparent transparent;
+  }
+  25% {
+    border-color: transparent #ea580c transparent transparent;
+  }
+  50% {
+    border-color: transparent transparent #7c2d12 transparent;
+  }
+  75% {
+    border-color: transparent transparent transparent #dc2626;
+  }
+  100% {
+    transform: rotate(360deg);
+    border-color: #dc2626 transparent transparent transparent;
+  }
+}
+
+/* Toast Container */
+.toast-container {
+  z-index: 1060;
+}
+
+/* Admin-specific toast styling */
+.toast-container .toast {
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 12px;
+}
+
+.toast-container .toast-header {
+  background: linear-gradient(135deg, #7c2d12 0%, #ea580c 100%);
+  color: white;
+  border-radius: 12px 12px 0 0;
+}
+
+/* Responsive Sidebar for Mobile */
+@media (max-width: 768px) {
+  .main-content.admin-main {
+    padding: 0;
+  }
+  
+  .content-container {
+    padding: 0;
+  }
+  
+  .page-content {
+    padding: 0;
+  }
+}
+
+/* Sidebar Open State (for future mobile menu) */
+.main-content.admin-main.sidebar-open {
+  transform: translateX(250px);
+  box-shadow: -10px 0 30px rgba(124, 45, 18, 0.1);
+}
+
+@media (max-width: 768px) {
+  .main-content.admin-main.sidebar-open {
+    transform: translateX(200px);
+  }
+}
+
+/* Animation Keyframes */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 30px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-30px, 0, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes adminBounceIn {
+  0%, 20%, 40%, 60%, 80%, to {
+    animation-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+  0% {
+    opacity: 0;
+    transform: scale3d(0.3, 0.3, 0.3);
+  }
+  20% {
+    transform: scale3d(1.1, 1.1, 1.1);
+    box-shadow: 0 0 20px rgba(124, 45, 18, 0.3);
+  }
+  40% {
+    transform: scale3d(0.9, 0.9, 0.9);
+  }
+  60% {
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+  80% {
+    transform: scale3d(0.97, 0.97, 0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Utility Classes - Admin Theme */
+.fade-in {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.slide-in {
+  animation: slideInLeft 0.5s ease-out;
+}
+
+.bounce-in {
+  animation: adminBounceIn 0.8s ease-out;
+}
+
+/* Card Hover Effects - Admin Theme */
+.card-hover {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.card-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(124, 45, 18, 0.15);
+}
+
+/* Button Animations - Admin Theme */
+.btn-animated {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.btn-animated::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(220, 38, 38, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-animated:hover::before {
+  left: 100%;
+}
+
+/* Smooth Scrolling */
+.page-content {
+  scroll-behavior: smooth;
+}
+
+/* Focus States - Admin Theme */
+.form-control:focus {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 0.2rem rgba(220, 38, 38, 0.25);
+}
+
+.btn:focus {
+  box-shadow: 0 0 0 0.2rem rgba(220, 38, 38, 0.25);
+}
+
+/* Custom Scrollbar - Admin Theme */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fef2f2;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #fca5a5 0%, #dc2626 100%);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #dc2626 0%, #7c2d12 100%);
+}
+
+/* Admin Badge Animations */
+.admin-glow {
+  animation: adminGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes adminGlow {
+  from {
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+  }
+  to {
+    box-shadow: 0 0 20px rgba(220, 38, 38, 0.8), 0 0 30px rgba(220, 38, 38, 0.3);
+  }
+}
+
+/* Admin Security Indicator */
+.security-indicator {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: linear-gradient(135deg, #dc2626 0%, #7c2d12 100%);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  z-index: 1000;
+  animation: securityPulse 3s ease-in-out infinite;
+}
+
+@keyframes securityPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+}
+
+/* Admin Content Enhancements */
+.admin-main .page-content {
+  position: relative;
+}
+
+.admin-main .page-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #dc2626 0%, #ea580c 50%, #7c2d12 100%);
+  z-index: 10;
+}
+
+/* Print Styles */
+@media print {
+  .main-content.admin-main {
+    background: white !important;
+    box-shadow: none !important;
+  }
+  
+  .main-content.admin-main .page-content::before {
+    display: none !important;
+  }
+  
+  .loading-overlay,
+  .toast-container,
+  .security-indicator {
+    display: none !important;
+  }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+  .main-content.admin-main {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  }
+  
+  .loading-overlay {
+    background: rgba(15, 23, 42, 0.95);
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .main-content.admin-main {
+    background: #ffffff;
+    border: 2px solid #000000;
+  }
+  
+  .loading-spinner .spinner-border {
+    border-color: #000000;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .security-indicator {
+    animation: none;
+  }
+}

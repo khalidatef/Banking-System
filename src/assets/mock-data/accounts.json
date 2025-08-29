@@ -1,0 +1,156 @@
+{
+  "accounts": [
+    {
+      "id": "ACC001",
+      "userId": "USR001",
+      "accountNumber": "BM-2025001-001",
+      "accountType": "Savings",
+      "accountName": "Ahmed Hassan - Primary Savings",
+      "balance": 125000.00,
+      "currency": "EGP",
+      "status": "Active",
+      "openingDate": "2023-01-15",
+      "interestRate": 8.5,
+      "minimumBalance": 1000.00,
+      "branch": {
+        "code": "BR001",
+        "name": "Cairo Main Branch",
+        "address": "Nile Corniche, Cairo"
+      },
+      "isDefault": true
+    },
+    {
+      "id": "ACC002",
+      "userId": "USR002",
+      "accountNumber": "BM-2025002-001",
+      "accountType": "Savings",
+      "accountName": "Mohamed Ali - Personal Account",
+      "balance": 45250.00,
+      "currency": "EGP",
+      "status": "Active",
+      "openingDate": "2023-02-10",
+      "interestRate": 8.5,
+      "minimumBalance": 1000.00,
+      "branch": {
+        "code": "BR002",
+        "name": "Tahrir Branch",
+        "address": "Tahrir Square, Cairo"
+      },
+      "isDefault": true
+    },
+    {
+      "id": "ACC003",
+      "userId": "USR002",
+      "accountNumber": "BM-2025002-002",
+      "accountType": "Checking",
+      "accountName": "Mohamed Ali - Business Account",
+      "balance": 78900.00,
+      "currency": "EGP",
+      "status": "Active",
+      "openingDate": "2023-06-15",
+      "interestRate": 5.0,
+      "minimumBalance": 5000.00,
+      "branch": {
+        "code": "BR002",
+        "name": "Tahrir Branch",
+        "address": "Tahrir Square, Cairo"
+      },
+      "isDefault": false
+    },
+    {
+      "id": "ACC004",
+      "userId": "USR003",
+      "accountNumber": "BM-2025003-001",
+      "accountType": "Savings",
+      "accountName": "Fatma Ahmed - Savings Account",
+      "balance": 67800.50,
+      "currency": "EGP",
+      "status": "Active",
+      "openingDate": "2023-03-05",
+      "interestRate": 8.5,
+      "minimumBalance": 1000.00,
+      "branch": {
+        "code": "BR003",
+        "name": "Zamalek Branch",
+        "address": "Zamalek District, Cairo"
+      },
+      "isDefault": true
+    },
+    {
+      "id": "ACC005",
+      "userId": "USR004",
+      "accountNumber": "BM-2025004-001",
+      "accountType": "Savings",
+      "accountName": "Omar Hassan - Savings Account",
+      "balance": 12350.75,
+      "currency": "EGP",
+      "status": "Frozen",
+      "openingDate": "2023-04-12",
+      "interestRate": 8.5,
+      "minimumBalance": 1000.00,
+      "branch": {
+        "code": "BR004",
+        "name": "Maadi Branch",
+        "address": "Maadi Street, Cairo"
+      },
+      "isDefault": true
+    },
+    {
+      "id": "ACC006",
+      "userId": "USR005",
+      "accountNumber": "BM-2025005-001",
+      "accountType": "Savings",
+      "accountName": "Ahmed Mohamed - Primary Savings",
+      "balance": 89750.25,
+      "currency": "EGP",
+      "status": "Active",
+      "openingDate": "2023-05-20",
+      "interestRate": 8.5,
+      "minimumBalance": 1000.00,
+      "branch": {
+        "code": "BR005",
+        "name": "New Cairo Branch",
+        "address": "New Cairo, Cairo"
+      },
+      "isDefault": true
+    },
+    {
+      "id": "ACC007",
+      "userId": "USR005",
+      "accountNumber": "BM-2025005-002",
+      "accountType": "Current",
+      "accountName": "Ahmed Mohamed - Current Account",
+      "balance": 25600.00,
+      "currency": "EGP",
+      "status": "Active",
+      "openingDate": "2024-01-10",
+      "interestRate": 0.0,
+      "minimumBalance": 500.00,
+      "branch": {
+        "code": "BR005",
+        "name": "New Cairo Branch",
+        "address": "New Cairo, Cairo"
+      },
+      "isDefault": false
+    },
+    {
+      "id": "ACC008",
+      "userId": "USR006",
+      "accountNumber": "BM-2025006-001",
+      "accountType": "Savings",
+      "accountName": "Sara Mahmoud - Savings Account",
+      "balance": 156900.90,
+      "currency": "EGP",
+      "status": "Active",
+      "openingDate": "2023-06-18",
+      "interestRate": 8.5,
+      "minimumBalance": 1000.00,
+      "branch": {
+        "code": "BR006",
+        "name": "Heliopolis Branch",
+        "address": "Heliopolis, Cairo"
+      },
+      "isDefault": true
+    }
+  ]
+}

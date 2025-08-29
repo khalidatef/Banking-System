@@ -1,214 +1,147 @@
-<!-- Hero Section with Bank Masr Branding -->
-<section class="hero-section">
-  <div class="container-fluid px-0">
-    <div class="hero-content">
-      <div class="hero-background">
-        <div class="hero-overlay"></div>
-        <div class="floating-elements">
-          <div class="floating-shape shape-1"></div>
-          <div class="floating-shape shape-2"></div>
-          <div class="floating-shape shape-3"></div>
-        </div>
+<!-- Welcome Header -->
+<div class="welcome-header fade-in">
+  <div class="container-fluid">
+    <div class="welcome-content">
+      <div class="welcome-icon">
+        <i class="fas fa-credit-card"></i>
       </div>
-      
-      <div class="container position-relative">
-        <div class="row align-items-center min-vh-100 py-5">
-          <div class="col-lg-6">
-            <div class="hero-text">
-              <h1 class="hero-title">
-                Welcome to 
-                <span class="text-gradient">Bank Masr</span>
-              </h1>
-              <p class="hero-subtitle">
-                Your trusted financial partner for secure banking, seamless transactions, and comprehensive financial solutions.
-              </p>
-              <div class="hero-stats">
-                <div class="stat-item">
-                  <h3 class="stat-number">2M+</h3>
-                  <p class="stat-label">Customers</p>
-                </div>
-                <div class="stat-item">
-                  <h3 class="stat-number">150+</h3>
-                  <p class="stat-label">Branches</p>
-                </div>
-                <div class="stat-item">
-                  <h3 class="stat-number">24/7</h3>
-                  <p class="stat-label">Support</p>
-                </div>
-              </div>
-              <div class="hero-actions">
-                <button class="btn btn-primary-hero" routerLink="/user/fund-transfer">
-                  <i class="fas fa-paper-plane me-2"></i>
-                  Quick Transfer
-                </button>
-                <button class="btn btn-outline-hero" routerLink="/user/myAccount">
-                  <i class="fas fa-user me-2"></i>
-                  My Account
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="hero-visual">
-              <div class="banking-card">
-                <div class="card-header">
-                  <div class="bank-logo">
-                    <i class="fas fa-university"></i>
-                  </div>
-                  <span class="bank-name">Bank Masr</span>
-                </div>
-                <div class="card-number">**** **** **** 1234</div>
-                <div class="card-footer">
-                  <div class="card-holder">Ahmed Mohamed</div>
-                  <div class="card-expiry">12/28</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="welcome-text">
+        <h1 class="welcome-title">Welcome back, {{ userName }}!</h1>
+        <p class="welcome-subtitle">Access your account and manage your finances securely</p>
       </div>
     </div>
   </div>
-</section>
+</div>
 
-<!-- Services Section -->
-<section class="services-section">
-  <div class="container py-5">
-    <div class="row">
-      <div class="col-12 text-center mb-5">
-        <h2 class="section-title">Banking Services</h2>
-        <p class="section-subtitle">Comprehensive financial solutions at your fingertips</p>
-      </div>
-    </div>
-    
-    <div class="row g-4">
-      <!-- Account Management -->
-      <div class="col-lg-4 col-md-6">
-        <div class="service-card" routerLink="/user/myAccount">
-          <div class="service-icon">
+<!-- Main Dashboard Content -->
+<div class="dashboard-container">
+  <div class="container-fluid">
+    <!-- Account Summary Cards -->
+    <div class="row g-4 mb-5">
+      <!-- My Account Card -->
+      <div class="col-xl-4 col-md-6">
+        <div class="account-card slide-up" routerLink="/user/myAccount">
+          <div class="card-icon">
             <i class="fas fa-wallet"></i>
           </div>
-          <h3 class="service-title">Account Management</h3>
-          <p class="service-description">View balances, account details, and manage your personal information</p>
-          <ul class="service-features">
-            <li><i class="fas fa-check"></i> Account Balance</li>
-            <li><i class="fas fa-check"></i> Account Statements</li>
-            <li><i class="fas fa-check"></i> Personal Details</li>
-          </ul>
-          <div class="service-action">
-            <span>Access Account</span>
-            <i class="fas fa-arrow-right"></i>
+          <div class="card-content">
+            <h3 class="card-title">My Account</h3>
+            <p class="card-subtitle">View your account balance and recent transactions</p>
+            <div class="account-balance">
+              <span class="balance-label">Current Balance</span>
+              <span class="balance-amount">$5000.00</span>
+              <span class="balance-status available">Available</span>
+            </div>
+            <div class="card-action">
+              <span>Get Started</span>
+              <i class="fas fa-arrow-right"></i>
+            </div>
           </div>
         </div>
       </div>
-      
-      <!-- Transactions -->
-      <div class="col-lg-4 col-md-6">
-        <div class="service-card" routerLink="/user/transactions">
-          <div class="service-icon">
-            <i class="fas fa-history"></i>
+
+      <!-- Transaction History Card -->
+      <div class="col-xl-4 col-md-6">
+        <div class="account-card slide-up" routerLink="/user/transactions" style="animation-delay: 0.1s;">
+          <div class="card-icon transaction">
+            <i class="fas fa-chart-line"></i>
           </div>
-          <h3 class="service-title">Transaction History</h3>
-          <p class="service-description">Track all your financial activities and transaction records</p>
-          <ul class="service-features">
-            <li><i class="fas fa-check"></i> Transaction History</li>
-            <li><i class="fas fa-check"></i> Search & Filter</li>
-            <li><i class="fas fa-check"></i> Export Reports</li>
-          </ul>
-          <div class="service-action">
-            <span>View Transactions</span>
-            <i class="fas fa-arrow-right"></i>
+          <div class="card-content">
+            <h3 class="card-title">Transaction History</h3>
+            <p class="card-subtitle">Browse and filter all your transactions</p>
+            <div class="transaction-summary">
+              <div class="transaction-stat">
+                <span class="stat-value">{{ recentTransactions.length }}</span>
+                <span class="stat-label">Recent Transactions</span>
+              </div>
+            </div>
+            <div class="card-action">
+              <span>Get Started</span>
+              <i class="fas fa-arrow-right"></i>
+            </div>
           </div>
         </div>
       </div>
-      
-      <!-- Money Transfer -->
-      <div class="col-lg-4 col-md-6">
-        <div class="service-card" routerLink="/user/fund-transfer">
-          <div class="service-icon">
+
+      <!-- Fund Transfer Card -->
+      <div class="col-xl-4 col-md-6">
+        <div class="account-card slide-up" routerLink="/user/fund-transfer" style="animation-delay: 0.2s;">
+          <div class="card-icon transfer">
             <i class="fas fa-paper-plane"></i>
           </div>
-          <h3 class="service-title">Money Transfer</h3>
-          <p class="service-description">Send money quickly and securely to any Bank Masr account</p>
-          <ul class="service-features">
-            <li><i class="fas fa-check"></i> Instant Transfer</li>
-            <li><i class="fas fa-check"></i> Secure Encryption</li>
-            <li><i class="fas fa-check"></i> Transaction Receipts</li>
-          </ul>
-          <div class="service-action">
-            <span>Transfer Funds</span>
-            <i class="fas fa-arrow-right"></i>
+          <div class="card-content">
+            <h3 class="card-title">Fund Transfer</h3>
+            <p class="card-subtitle">Transfer money between accounts securely</p>
+            <div class="transfer-info">
+              <span class="transfer-label">Quick & Secure</span>
+              <span class="transfer-status">Available 24/7</span>
+            </div>
+            <div class="card-action">
+              <span>Get Started</span>
+              <i class="fas fa-arrow-right"></i>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- Features Section -->
-<section class="features-section">
-  <div class="container py-5">
-    <div class="row align-items-center">
-      <div class="col-lg-6">
-        <div class="features-content">
-          <h2 class="features-title">Why Choose Bank Masr?</h2>
-          <p class="features-subtitle">Egypt's leading bank with over 150 years of trust and innovation</p>
-          
-          <div class="feature-list">
-            <div class="feature-item">
-              <div class="feature-icon">
-                <i class="fas fa-shield-alt"></i>
+    <!-- Recent Activity Section -->
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="activity-card slide-up" style="animation-delay: 0.3s;">
+          <div class="card-header-custom">
+            <h4 class="card-title-secondary">Recent Transactions</h4>
+            <button class="btn btn-link-custom" routerLink="/user/transactions">
+              View All <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+          <div class="transactions-list">
+            <div class="transaction-item" *ngFor="let transaction of recentTransactions.slice(0, 4)">
+              <div class="transaction-icon" [class]="getTransactionTypeClass(transaction.type)">
+                <i [class]="getTransactionIcon(transaction.type)"></i>
               </div>
-              <div class="feature-text">
-                <h4>Advanced Security</h4>
-                <p>Bank-grade encryption and multi-factor authentication</p>
+              <div class="transaction-details">
+                <h6 class="transaction-title">{{ transaction.description }}</h6>
+                <span class="transaction-date">{{ transaction.date | date:'MMM dd, yyyy' }}</span>
               </div>
-            </div>
-            
-            <div class="feature-item">
-              <div class="feature-icon">
-                <i class="fas fa-clock"></i>
-              </div>
-              <div class="feature-text">
-                <h4>24/7 Banking</h4>
-                <p>Access your accounts anytime, anywhere with our digital platform</p>
-              </div>
-            </div>
-            
-            <div class="feature-item">
-              <div class="feature-icon">
-                <i class="fas fa-headset"></i>
-              </div>
-              <div class="feature-text">
-                <h4>Expert Support</h4>
-                <p>Dedicated customer service team ready to assist you</p>
+              <div class="transaction-amount" [class]="getTransactionColor(transaction.type)">
+                <span class="amount-sign" *ngIf="transaction.type === 'Credit'">+</span>
+                <span class="amount-sign" *ngIf="transaction.type === 'Debit'">-</span>
+                ${{ transaction.amount | number:'1.2-2' }}
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-lg-6">
-        <div class="features-visual">
-          <div class="phone-mockup">
-            <div class="phone-content">
-              <div class="app-header">
-                <i class="fas fa-university"></i>
-                <span>Bank Masr</span>
+
+      <div class="col-lg-4">
+        <div class="account-summary-card slide-up" style="animation-delay: 0.4s;">
+          <div class="card-header-custom">
+            <h4 class="card-title-secondary">Account Summary</h4>
+          </div>
+          <div class="summary-stats">
+            <div class="summary-item" *ngFor="let stat of accountStats">
+              <div class="stat-icon" [class]="'stat-' + stat.color">
+                <i [class]="stat.icon"></i>
               </div>
-              <div class="balance-widget">
-                <h3>Account Balance</h3>
-                <h2>EGP 45,250.00</h2>
+              <div class="stat-details">
+                <span class="stat-label">{{ stat.label }}</span>
+                <span class="stat-value">{{ stat.currency }}{{ stat.value }}</span>
               </div>
-              <div class="quick-actions-mini">
-                <div class="action-mini"><i class="fas fa-paper-plane"></i></div>
-                <div class="action-mini"><i class="fas fa-history"></i></div>
-                <div class="action-mini"><i class="fas fa-user"></i></div>
-                <div class="action-mini"><i class="fas fa-cog"></i></div>
-              </div>
+            </div>
+          </div>
+          <div class="account-info">
+            <div class="info-item">
+              <span class="info-label">Account ID</span>
+              <span class="info-value">1</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Account Type</span>
+              <span class="info-value">Savings</span>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</section>
+</div>
