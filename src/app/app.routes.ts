@@ -9,38 +9,21 @@ import { FundTransferComponent } from './components/fund-transfer/fund-transfer.
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 
-export const routes: Routes = [
 
-  {
-    path: 'user',
-    component: UserLayoutComponent,
-    children: [
+export const routes: Routes = [
+  {path:'' , redirectTo:'admin',pathMatch:'full'},
+  {path: 'user',component: UserLayoutComponent,children: [
       { path: '', redirectTo: 'user-home', pathMatch: 'full' },
       { path: 'user-home', component: UserDashboardComponent, title: 'Home' },
       { path: 'myAccount', component: MyAccountComponent, title: 'Myaccount' },
-      {
-        path: 'transactions',
-        component: TransactionsComponent,
-        title: 'Transactions',
-      },
-      {
-        path: 'fund-transfer',
-        component: FundTransferComponent,
-        title: 'Fund-Transfer',
-      },
+      { path: 'transactions',component: TransactionsComponent,title: 'Transactions',},
+      {path: 'fund-transfer',component: FundTransferComponent,title: 'Fund-Transfer',},
     ],
   },
-  {
-    path: 'admin',
-    component: AdminLayoutComponent,
-    children: [
+  {path: 'admin',component: AdminLayoutComponent,children: [
       { path: '', redirectTo: 'admin-home', pathMatch: 'full' },
       { path: 'admin-home', component: AdminDashboardComponent, title: 'Home' },
-      {
-        path: 'admin-panel',
-        component: AdminPanelComponent,
-        title: 'Admin-Panel',
-      },
+      {path: 'admin-panel',component: AdminPanelComponent,title: 'Admin-Panel',},
     ],
   },
   { path: '**', component: NotFoundComponent, title: 'Error 404' },
