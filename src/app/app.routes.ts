@@ -15,14 +15,14 @@ import { loggedOutOnlyGuard } from './guards/logged-out-only.guard';
 import { roleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
-   { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
-  {
-    path: 'auth',
-    component: AuthLayoutComponent,
-    children: [
-      { path: 'login', component: LoginComponent, canActivate: [loggedOutOnlyGuard], title: 'Login' },
-    ],
-  },
+{ path: '', redirectTo: 'auth/login', pathMatch: 'full' },
+{
+  path: 'auth',
+  component: AuthLayoutComponent,
+  children: [
+    { path: 'login', component: LoginComponent, canActivate: [loggedOutOnlyGuard], title: 'Login' },
+  ],
+},
   {
     path: 'user',
     component: UserLayoutComponent,
