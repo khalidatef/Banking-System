@@ -1,0 +1,76 @@
+.account-container {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  margin: 20px;
+}
+
+.subtitle {
+  color: #777;
+  margin-bottom: 15px;
+}
+
+.account-details {
+  display: flex;
+  justify-content: space-between;
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 6px;
+  margin-bottom: 25px;
+}
+
+.account-details div {
+  flex: 1;
+  text-align: center;
+}
+
+.account-details p {
+  margin: 5px 0 0;
+}
+
+.type {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.balance {
+  color: green;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.transactions {
+  list-style: none;
+  padding: 0;
+}
+
+.transactions li {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.transactions li:last-child {
+  border-bottom: none;
+}
+
+.desc {
+  font-weight: bold;
+}
+
+.date {
+  font-size: 12px;
+  color: #999;
+}
+
+.credit {
+  color: green;
+  font-weight: bold;
+}
+
+.debit {
+  color: red;
+  font-weight: bold;
+}

@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Account } from '../models/Account';
 import { Transaction } from '../models/transaction';
+import { map } from 'rxjs/operators';
+import { users } from '../data/mock-users';
 
 @Injectable({
   providedIn: 'root'
@@ -23,4 +25,23 @@ export class AccountService {
   addTransaction(transaction: Transaction): Observable<Transaction> {
     return this.http.post<Transaction>(`${this.baseUrl}/Transaction`, transaction);
   }
+
+  getTransactionsByAccountNo(accountNo: string): Observable<Transaction[]> {
+  return this.http.get<Transaction[]>(`${this.baseUrl}/Transaction`).pipe(
+    map(allTx => allTx.filter(
+      t => t.fromAccountNo === accountNo || t.ToAccountNo === accountNo
+    ))
+  );
+}
+
+getAccountForUser(username: string): Observable<Account | null> {
+  return this.getAccounts().pipe(
+    map(accounts => {
+      const user = users.find(u => u.username === username);
+      if (!user) return null;
+      return accounts.find(a => a.userId === Number(user.id)) ?? null;
+    })
+  );
+}
+
 }

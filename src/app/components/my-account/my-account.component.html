@@ -1,1 +1,63 @@
-<p>my-account works!</p>
+<div class="container mt-4">
+  <!-- Account Overview -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Account Overview</h5>
+      <p class="text-muted">Your account details and current balance</p>
+
+      <div class="row">
+        <div class="col-md-4">
+          <strong>Account Number:</strong>
+          <p>{{ account?.accountNo }}</p>
+        </div>
+        <div class="col-md-4">
+          <strong>Account Type:</strong>
+          <span class="badge bg-success">{{ account?.accountType }}</span>
+        </div>
+        <div class="col-md-4 text-end">
+          <strong>Current Balance:</strong>
+          <p class="text-success fw-bold">
+            {{ account?.balance | currency:'USD':'symbol':'1.2-2' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent Transactions -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title">Recent Transactions</h5>
+      <p class="text-muted">Your latest account activity</p>
+
+      <ul class="list-group">
+        <li
+          *ngFor="let transaction of transactions"
+          class="list-group-item d-flex justify-content-between align-items-center"
+        >
+          <div>
+            <strong>{{ transaction.description }}</strong>
+            <br />
+            <small class="text-muted">
+              {{ transaction.date | date:'mediumDate' }}
+            </small>
+          </div>
+
+          <div class="text-end">
+            <span
+              [ngClass]="{
+                'text-success': transaction.type === 'Credit',
+                'text-danger': transaction.type === 'Debit'
+              }"
+            >
+              {{ transaction.type === 'Credit' ? '+' : '-' }}
+              {{ transaction.amount | currency:'USD':'symbol':'1.2-2' }}
+            </span>
+            <br />
+            <small>{{ transaction.type }}</small>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
