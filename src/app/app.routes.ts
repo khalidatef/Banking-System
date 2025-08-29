@@ -1,4 +1,6 @@
-import { Routes } from '@angular/router';
+import { Routes} from '@angular/router';
+import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
+import { LoginComponent } from './components/login/login.component';
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
@@ -9,11 +11,23 @@ import { FundTransferComponent } from './components/fund-transfer/fund-transfer.
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 
-export const routes: Routes = [
+import { loggedOutOnlyGuard } from './guards/logged-out-only.guard';
+import { roleGuard } from './guards/role.guard';
 
+export const routes: Routes = [
+{ path: '', redirectTo: 'auth/login', pathMatch: 'full' },
+{
+  path: 'auth',
+  component: AuthLayoutComponent,
+  children: [
+    { path: 'login', component: LoginComponent, canActivate: [loggedOutOnlyGuard], title: 'Login' },
+  ],
+},
   {
     path: 'user',
     component: UserLayoutComponent,
+    canActivate: [roleGuard],  
+    data: { role: 'User' },
     children: [
       { path: '', redirectTo: 'user-home', pathMatch: 'full' },
       { path: 'user-home', component: UserDashboardComponent, title: 'Home' },
@@ -33,6 +47,8 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminLayoutComponent,
+    canActivate: [roleGuard],
+    data: { role: 'Admin' },
     children: [
       { path: '', redirectTo: 'admin-home', pathMatch: 'full' },
       { path: 'admin-home', component: AdminDashboardComponent, title: 'Home' },
