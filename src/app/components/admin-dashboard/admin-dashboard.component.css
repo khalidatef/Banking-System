@@ -1,1 +1,18 @@
+.card {
+  width: 590px;
+  height: 200px;
+  margin-bottom: 150px;
+  position: absolute;
+  bottom: 0;
+  border-radius: 20px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+}
 
+.button {
+  background-color: #eff8fa;
+  border: 2px solid #aec2da;
+  width: 100%;
+}

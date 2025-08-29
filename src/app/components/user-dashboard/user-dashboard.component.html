@@ -1,1 +1,58 @@
-<p>user-dashboard works!</p>
+<section>
+  <!--main content -->
+  <div class="container text-center py-5">
+    <div class="mb-4"></div>
+    <i class="fa-solid fa-credit-card fa-3x text-primary mb-3"></i>
+    <h1 class="fw-bold">Welcome back, {{ username }}!</h1>
+    <p class="text-muted">Manage your banking system from admin dashboard</p>
+  </div>
+
+  <!--card section -->
+  <div class="d-flex justify-content-between">
+    <div class="card shadow-sm ms-5">
+      <div class="card-body text-center mt-3">
+        <i class="fa-solid fa-money-check-dollar text-primary fa-2x mb-3"></i>
+        <h5 class="card-title fw-bold fs-6">My Account</h5>
+        <p class="card-text text-muted">
+          View your account balance and recent transactions
+        </p>
+        <button
+          routerLink="/user/myAccount"
+          class="btn button btn-sm rounded-3 fw-medium"
+        >
+          Get Started <i class="fa fa-solid fa-arrow-right ms-2"></i>
+        </button>
+      </div>
+    </div>
+    <div class="card shadow-sm">
+      <div class="card-body text-center mt-3">
+        <i class="fa-solid fa-arrow-trend-up text-primary fa-2x mb-3"></i>
+        <h5 class="card-title fw-bold fs-6">Transaction</h5>
+        <p class="card-text text-muted">
+          Browse and filter and all your transactions
+        </p>
+        <button
+          routerLink="/user/transactions"
+          class="btn button btn-sm rounded-3 fw-medium"
+        >
+          Get Started <i class="fa fa-solid fa-arrow-right ms-2"></i>
+        </button>
+      </div>
+    </div>
+    <div class="card shadow-sm me-5">
+      <div class="card-body text-center mt-3">
+        <i class="fa-solid fa-dollar-sign text-primary fa-2x mb-3"></i>
+        <h5 class="card-title fw-bold fs-6">Fund Transfer</h5>
+        <p class="card-text text-muted">
+          Transfer money to other accounts securely
+        </p>
+        <button
+          routerLink="/user/fund-transfer"
+          class="btn button btn-sm rounded-3 fw-medium"
+        >
+          Get Started <i class="fa fa-solid fa-arrow-right ms-2"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

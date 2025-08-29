@@ -1,17 +1,24 @@
-<!--main content -->
-<div class="container text-center py-5">
+<section>
+  <!--main content -->
+  <div class="container text-center py-5">
     <div class="mb-4"></div>
     <i class="fa-solid fa-credit-card fa-3x text-primary mb-3"></i>
-    <h1 class="fw-bold">Welcome back, admin!</h1>
-    <p class=" text-muted">Manage your banking system from admin dashboard</p>
-</div>
+    <h1 class="fw-bold">Welcome back, {{ username }}!</h1>
+    <p class="text-muted">Manage your banking system from admin dashboard</p>
+  </div>
 
-<!--card section -->
-<div class="card shadow-sm mx-auto" style="max-width: 350px;">
-<div class="card-body text-center">
-    <i class="fa-solid fa-people-group text-primary fa-2x mb-3" ></i>
-    <h5 class="card-title fw-bold">User Management</h5>
-    <p class="card-text text-muted" >Manage all users and their permissions </p>
-    <a routerLink="/admin/admin-panel" class="btn btn-primary"> Get Started </a>
+  <!--card section -->
+  <div class="card shadow-sm ms-5">
+    <div class="card-body text-center mt-3">
+      <i class="fa-solid fa-people-group text-primary fa-2x mb-3"></i>
+      <h5 class="card-title fw-bold fs-6">User Management</h5>
+      <p class="card-text text-muted">Manage all users and their permissions</p>
+      <button
+        routerLink="/admin/admin-panel"
+        class="btn button btn-sm rounded-3 fw-medium"
+      >
+        Get Started <i class="fa fa-solid fa-arrow-right ms-2"></i>
+      </button>
     </div>
-    </div>
+  </div>
+</section>
