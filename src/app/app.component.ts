@@ -6,7 +6,7 @@ import { UserLayoutComponent } from './layouts/user-layout/user-layout.component
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,AdminLayoutComponent,UserLayoutComponent],
+  imports: [RouterOutlet],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
