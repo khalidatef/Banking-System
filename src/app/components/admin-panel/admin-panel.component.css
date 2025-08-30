@@ -1,28 +1,7 @@
-.head {
-  color: var(--text);
+
+.modal {
+  background: rgba(0, 0, 0, 0.5);
 }
-.sub-head {
-  color: var(--muted);
-  font-size: 16px;
-}
-table {
-  width: 100%;
-}
-.text {
-  font-weight: lighter;
-}
-.table-card-style {
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.08);
-  border-radius: 20px;
-  background: #fff;
-  padding: 20px;
-  width: 95%;
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  -ms-border-radius: 20px;
-  -o-border-radius: 20px;
-}
-.button {
-  background-color: #eff8fa;
-  border: 2px solid #aec2da;
+.modal .modal-dialog {
+  margin-top: 10%;
 }

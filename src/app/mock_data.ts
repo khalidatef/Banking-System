@@ -1,0 +1,290 @@
+// Role Enum
+export enum Role {
+  Admin = 'Admin',
+  User = 'User'
+}
+
+// User Interface
+export interface User {
+  username: string;
+  password: string;
+  role: Role;
+  isActive: boolean;
+  email: string;
+  phone: string;
+  id: string;
+}
+
+// Complete User Data (30 records)
+export let users: User[] = [
+  {
+    id: "1",
+    username: "john_doe",
+    password: "s3cur3P@ss1",
+    role: Role.User,
+    isActive: true,
+    email: "john.doe@example.com",
+    phone: "+15551234567"
+  },
+  {
+    id: "2",
+    username: "admin_alice",
+    password: "Adm!nP@ss2023",
+    role: Role.Admin,
+    isActive: true,
+    email: "alice.admin@bank.com",
+    phone: "+15559876543"
+  },
+  {
+    id: "3",
+    username: "m_smith",
+    password: "TempP@ss123",
+    role: Role.User,
+    isActive: false,
+    email: "m.smith@example.com",
+    phone: "+15557778888"
+  },
+  {
+    id: "4",
+    username: "jane_white",
+    password: "J@n3Wh!t3",
+    role: Role.User,
+    isActive: true,
+    email: "jane.white@example.com",
+    phone: "+15553334444"
+  },
+  {
+    id: "5",
+    username: "sys_admin",
+    password: "R00t@Bank!",
+    role: Role.Admin,
+    isActive: true,
+    email: "sysadmin@bank.com",
+    phone: "+15556667777"
+  },
+  {
+    id: "6",
+    username: "inactive_user",
+    password: "OldP@ss123",
+    role: Role.User,
+    isActive: false,
+    email: "inactive@example.com",
+    phone: "+15551112222"
+  },
+  {
+    id: "7",
+    username: "robert_k",
+    password: "R0b3rtK!",
+    role: Role.User,
+    isActive: true,
+    email: "robert.k@example.com",
+    phone: "+15554445555"
+  },
+  {
+    id: "8",
+    username: "audit_admin",
+    password: "Aud!tP@ss",
+    role: Role.Admin,
+    isActive: true,
+    email: "audit@bank.com",
+    phone: "+15558889999"
+  },
+  {
+    id: "9",
+    username: "lisa_green",
+    password: "L!s@2023",
+    role: Role.User,
+    isActive: true,
+    email: "lisa.green@example.com",
+    phone: "+15550001111"
+  },
+  {
+    id: "10",
+    username: "support_admin",
+    password: "Supp0rt!23",
+    role: Role.Admin,
+    isActive: true,
+    email: "support@bank.com",
+    phone: "+15552223333"
+  },
+  {
+    id: "11",
+    username: "david_m",
+    password: "D@v1dM#",
+    role: Role.User,
+    isActive: false,
+    email: "david.m@example.com",
+    phone: "+15556669999"
+  },
+  {
+    id: "12",
+    username: "finance_admin",
+    password: "F!n@nc3",
+    role: Role.Admin,
+    isActive: true,
+    email: "finance@bank.com",
+    phone: "+15557770000"
+  },
+  {
+    id: "13",
+    username: "sarah_k",
+    password: "S@r@h123",
+    role: Role.User,
+    isActive: true,
+    email: "sarah.k@example.com",
+    phone: "+15558881111"
+  },
+  {
+    id: "14",
+    username: "security_admin",
+    password: "S3cur!ty@",
+    role: Role.Admin,
+    isActive: true,
+    email: "security@bank.com",
+    phone: "+15559992222"
+  },
+  {
+    id: "15",
+    username: "thomas_b",
+    password: "Th0m@sB",
+    role: Role.User,
+    isActive: false,
+    email: "thomas.b@example.com",
+    phone: "+15551113333"
+  },
+  {
+    id: "16",
+    username: "hr_admin",
+    password: "Hr@Bank1",
+    role: Role.Admin,
+    isActive: true,
+    email: "hr@bank.com",
+    phone: "+15552224444"
+  },
+  {
+    id: "17",
+    username: "emily_r",
+    password: "3m!lyR#",
+    role: Role.User,
+    isActive: true,
+    email: "emily.r@example.com",
+    phone: "+15553335555"
+  },
+  {
+    id: "18",
+    username: "it_admin",
+    password: "1T@dmin!",
+    role: Role.Admin,
+    isActive: true,
+    email: "it@bank.com",
+    phone: "+15554446666"
+  },
+  {
+    id: "19",
+    username: "inactive_customer",
+    password: "OldP@ss456",
+    role: Role.User,
+    isActive: false,
+    email: "inactive.customer@example.com",
+    phone: "+15555557777"
+  },
+  {
+    id: "20",
+    username: "marketing_admin",
+    password: "M@rk3t!ng",
+    role: Role.Admin,
+    isActive: true,
+    email: "marketing@bank.com",
+    phone: "+15556668888"
+  },
+  {
+    id: "21",
+    username: "peter_w",
+    password: "P3t3rW!",
+    role: Role.User,
+    isActive: true,
+    email: "peter.w@example.com",
+    phone: "+15557779999"
+  },
+  {
+    id: "22",
+    username: "operations_admin",
+    password: "0p3r@t0r",
+    role: Role.Admin,
+    isActive: true,
+    email: "operations@bank.com",
+    phone: "+15558880000"
+  },
+  {
+    id: "23",
+    username: "olivia_m",
+    password: "0l!v1@M",
+    role: Role.User,
+    isActive: false,
+    email: "olivia.m@example.com",
+    phone: "+15559991111"
+  },
+  {
+    id: "24",
+    username: "ceo_admin",
+    password: "CE0@Bank!",
+    role: Role.Admin,
+    isActive: true,
+    email: "ceo@bank.com",
+    phone: "+15550002222"
+  },
+  {
+    id: "25",
+    username: "james_l",
+    password: "J@m3sL#",
+    role: Role.User,
+    isActive: true,
+    email: "james.l@example.com",
+    phone: "+15551114444"
+  },
+  {
+    id: "26",
+    username: "compliance_admin",
+    password: "C0mply!23",
+    role: Role.Admin,
+    isActive: true,
+    email: "compliance@bank.com",
+    phone: "+15552225555"
+  },
+  {
+    id: "27",
+    username: "sophia_c",
+    password: "S0ph!@C",
+    role: Role.User,
+    isActive: false,
+    email: "sophia.c@example.com",
+    phone: "+15553336666"
+  },
+  {
+    id: "28",
+    username: "risk_admin",
+    password: "R!sk@456",
+    role: Role.Admin,
+    isActive: true,
+    email: "risk@bank.com",
+    phone: "+15554447777"
+  },
+  {
+    id: "29",
+    username: "daniel_t",
+    password: "D@n13lT",
+    role: Role.User,
+    isActive: true,
+    email: "daniel.t@example.com",
+    phone: "+15555558888"
+  },
+  {
+    id: "30",
+    username: "backend_admin",
+    password: "B@ck3nd!",
+    role: Role.Admin,
+    isActive: true,
+    email: "backend@bank.com",
+    phone: "+15556669999"
+  }
+];
