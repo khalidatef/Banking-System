@@ -53,11 +53,11 @@
         <div class="d-flex align-items-center">
         <span class="me-3 fs-4">
             <i
-            class="bi"
-            [ngClass]="{
-                'bi-arrow-up-circle-fill text-success': t.type === 'Credit',
-                'bi-arrow-down-circle-fill text-danger': t.type === 'Debit'
-            }"
+              class="bi"
+              [ngClass]="{
+                'bi-arrow-up-circle-fill text-success': accountNo && t.ToAccountNo === accountNo,
+                'bi-arrow-down-circle-fill text-danger': accountNo && t.fromAccountNo === accountNo
+              }"
             ></i>
         </span>
         <div>
@@ -84,11 +84,11 @@
             <span
               class="fw-bold"
               [ngClass]="{
-                'text-success': t.type === 'Credit',
-                'text-danger': t.type === 'Debit'
+                'text-success': accountNo && t.ToAccountNo === accountNo,
+                'text-danger': accountNo && t.fromAccountNo === accountNo
               }"
             >
-              {{ t.type === 'Credit' ? '+' : '-' }}{{ t.amount | currency }}
+              {{ accountNo && t.ToAccountNo === accountNo ? '+' : '-' }}{{ t.amount | currency }}
             </span>
             <br />
             <span class="text-muted small" style="font-size: 0.8 rem;">Transaction ID: {{ t.id }}</span>

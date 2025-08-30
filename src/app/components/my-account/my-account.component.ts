@@ -17,6 +17,7 @@ export class MyAccountComponent {
   username = '';
   account: Account | null = null;
   transactions: Transaction[] = [];
+  accountNo: string | null = null;
 
   constructor(
     private auth: AuthService,
@@ -35,6 +36,7 @@ loadAccount(): void {
   this.accountService.getAccountForUser(this.username).subscribe(acc => {
     this.account = acc;
     if (this.account) {
+      this.accountNo = this.account.accountNo;
       this.loadTransactions(this.account.accountNo);
     }
   });

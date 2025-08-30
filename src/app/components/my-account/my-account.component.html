@@ -46,10 +46,11 @@
             <i
               class="bi"
               [ngClass]="{
-                'bi-arrow-up-circle-fill text-success': t.type === 'Credit',
-                'bi-arrow-down-circle-fill text-danger': t.type === 'Debit'
+                'bi-arrow-up-circle-fill text-success': accountNo && t.ToAccountNo === accountNo,
+                'bi-arrow-down-circle-fill text-danger': accountNo && t.fromAccountNo === accountNo
               }"
             ></i>
+
           </span>
           <div>
             <h4 class="mb-0 fw-semibold" style="font-size: 1 rem;">{{ t.description }}</h4>
@@ -64,12 +65,11 @@
           <span
             class="fw-bold d-block"
             [ngClass]="{
-              'text-success': t.type === 'Credit',
-              'text-danger': t.type === 'Debit'
+              'text-success': accountNo && t.ToAccountNo === accountNo,
+              'text-danger': accountNo && t.fromAccountNo === accountNo
             }"
           >
-            {{ t.type === 'Credit' ? '+' : '-' }}
-            {{ t.amount | currency }}
+            {{ accountNo && t.ToAccountNo === accountNo ? '+' : '-' }}{{ t.amount | currency }}
           </span>
           <small class="text-muted">{{ t.type }}</small>
         </div>
