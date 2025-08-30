@@ -15,7 +15,7 @@ export class AuthService {
   private roleCache: Role | null = null;
   private usernameCache: string | null = null;
   
-  // Enhanced features preserved from your version
+  // Enhanced features for compatibility with existing components
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
 
@@ -26,51 +26,39 @@ export class AuthService {
     this.loadUserFromStorage();
   }
 
-  // Simple and clean login method
+  // Team's proven working login method
   login(username: string, password: string): Role | null {
     const uName = (username ?? '').trim();
     const pWord = (password ?? '').trim();
 
-    // Reset error state
+    // Reset error state first
     this.lastError = null;
-    
-    // Basic validation
-    if (!uName || !pWord) {
-      this.lastError = 'INVALID';
-      return null;
-    }
-    
-    // Find user by username first
-    const userByName = users.find(x => x.username === uName);
-    
-    // Check if user exists but is inactive
-    if (userByName && !userByName.isActive) {
+
+    const recByName = users.find(x => x.username === uName);
+    if (recByName && !recByName.isActive) {
       this.lastError = 'INACTIVE';
       return null;
     }
 
-    // Find active user with matching credentials
-    const user = users.find(
+    const u = users.find(
       x => x.username === uName && x.password === pWord && x.isActive
     );
-    
-    if (!user) {
+    if (!u) {
       this.lastError = 'INVALID';
       return null;
     }
 
     // Success - store user data
-    this.roleCache = user.role;
-    this.usernameCache = user.username;
-    this.currentUserSubject.next(user);
+    this.roleCache = u.role;
+    this.usernameCache = u.username;
+    this.currentUserSubject.next(u);
 
     if (this.isBrowser) {
-      localStorage.setItem(ROLE_KEY, user.role);
-      localStorage.setItem(USERNAME_KEY, user.username);
-      localStorage.setItem('currentUser', JSON.stringify(user));
+      localStorage.setItem(ROLE_KEY, u.role);
+      localStorage.setItem(USERNAME_KEY, u.username);
+      localStorage.setItem('currentUser', JSON.stringify(u));
     }
-    
-    return user.role;
+    return u.role;
   }
 
   logout(): void {
@@ -81,7 +69,6 @@ export class AuthService {
     if (this.isBrowser) {
       localStorage.removeItem(ROLE_KEY);
       localStorage.removeItem(USERNAME_KEY);
-      // Enhanced: Remove additional stored data
       localStorage.removeItem('currentUser');
     }
   }
@@ -103,7 +90,47 @@ export class AuthService {
     return this.getRole() !== null;
   }
 
-  // Enhanced: Async version for backward compatibility
+  // Enhanced methods for compatibility with existing components
+  getCurrentUser(): User | null {
+    return this.currentUserSubject.value;
+  }
+
+  getUserRole(): Role | null {
+    return this.getRole();
+  }
+
+  isAdmin(): boolean {
+    return this.getRole() === Role.Admin;
+  }
+
+  isUser(): boolean {
+    return this.getRole() === Role.User;
+  }
+
+  getAllUsers(): User[] {
+    return users;
+  }
+
+  getCurrentUserDisplayName(): string {
+    const user = this.getCurrentUser();
+    return user ? user.username : 'User';
+  }
+
+  getCurrentUserFullName(): string {
+    const user = this.getCurrentUser();
+    return user ? user.username : 'Unknown User';
+  }
+
+  updateUserStatus(userId: string, isActive: boolean): boolean {
+    const userIndex = users.findIndex(u => u.id === userId);
+    if (userIndex !== -1) {
+      users[userIndex].isActive = isActive;
+      return true;
+    }
+    return false;
+  }
+
+  // Async compatibility method
   loginAsync(username: string, password: string): Observable<{ success: boolean; user?: User; message?: string }> {
     const role = this.login(username, password);
     const user = users.find(u => u.username === username && u.password === password && u.isActive);
@@ -116,49 +143,11 @@ export class AuthService {
     return of({ success: false, message });
   }
 
-  /**
-   * Get current user
-   */
-  getCurrentUser(): User | null {
-    return this.currentUserSubject.value;
-  }
-
-  /**
-   * Get current user role (using Role enum)
-   */
-  getUserRole(): Role | null {
-    const user = this.getCurrentUser();
-    return user ? user.role : null;
-  }
-
-  /**
-   * Check if current user has admin role
-   */
-  isAdmin(): boolean {
-    return this.getRole() === Role.Admin;
-  }
-
-  /**
-   * Check if current user has user role
-   */
-  isUser(): boolean {
-    return this.getRole() === Role.User;
-  }
-
-  /**
-   * Load user from localStorage
-   */
   private loadUserFromStorage(): void {
     if (this.isBrowser) {
       const storedUser = localStorage.getItem('currentUser');
       const storedRole = localStorage.getItem(ROLE_KEY);
       const storedUsername = localStorage.getItem(USERNAME_KEY);
-      
-      console.log('🔍 Loading from localStorage:', { 
-        hasStoredUser: !!storedUser, 
-        storedRole, 
-        storedUsername 
-      });
       
       if (storedUser && storedRole && storedUsername) {
         try {
@@ -166,7 +155,6 @@ export class AuthService {
           
           // Validate user data integrity
           if (!user.username || !user.role || user.username !== storedUsername || user.role !== storedRole) {
-            console.warn('⚠️ localStorage data inconsistency detected, clearing...');
             this.logout();
             return;
           }
@@ -174,7 +162,6 @@ export class AuthService {
           // Verify user still exists and is active in the system
           const currentUser = users.find(u => u.username === user.username && u.isActive);
           if (!currentUser) {
-            console.warn('⚠️ Stored user no longer exists or is inactive, clearing...');
             this.logout();
             return;
           }
@@ -182,49 +169,10 @@ export class AuthService {
           this.currentUserSubject.next(user);
           this.roleCache = storedRole as Role;
           this.usernameCache = storedUsername;
-          console.log('✅ Successfully loaded user from storage:', user.username);
         } catch (error) {
-          console.error('❌ Error parsing stored user:', error);
           this.logout();
         }
-      } else {
-        console.log('ℹ️ No complete user data in localStorage');
       }
     }
-  }
-
-  /**
-   * Get all users (for admin functionality)
-   */
-  getAllUsers(): User[] {
-    return users;
-  }
-
-  /**
-   * Get current user's display name
-   */
-  getCurrentUserDisplayName(): string {
-    const user = this.getCurrentUser();
-    return user ? user.username : 'User';
-  }
-
-  /**
-   * Get current user's full name (fallback to username)
-   */
-  getCurrentUserFullName(): string {
-    const user = this.getCurrentUser();
-    return user ? user.username : 'Unknown User';
-  }
-
-  /**
-   * Update user status
-   */
-  updateUserStatus(userId: string, isActive: boolean): boolean {
-    const userIndex = users.findIndex(u => u.id === userId);
-    if (userIndex !== -1) {
-      users[userIndex].isActive = isActive;
-      return true;
-    }
-    return false;
   }
 }

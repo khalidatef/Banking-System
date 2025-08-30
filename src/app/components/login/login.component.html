@@ -1,108 +1,59 @@
-<div class="login-container">
-  <div class="login-card">
-    <!-- Bank Logo and Title -->
-    <div class="logo-section">
-      <div class="logo-icon">
-        <i class="fas fa-university"></i>
-      </div>
-      <h2 class="bank-title">Bank Masr</h2>
-      <p class="subtitle">Sign in to access your account</p>
-    </div>
-
-    <!-- Error Message -->
-    <div class="alert alert-danger" *ngIf="errorMessage">
-      <i class="fas fa-exclamation-triangle"></i>
-      {{ errorMessage }}
-    </div>
-
-    <!-- Login Form -->
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-      <!-- Username Field -->
-      <div class="form-group">
-        <label for="username" class="form-label">Username</label>
-        <input 
-          type="text" 
-          id="username" 
-          formControlName="username"
-          placeholder="Enter username"
-          class="form-control"
-          [class.is-invalid]="hasError('username')">
-        <div class="invalid-feedback" *ngIf="hasError('username')">
-          {{ getErrorMessage('username') }}
+<div class="auth-bg">
+    <div class="login-card">
+        <!-- logo -->
+        <div class="logo" aria-hidden="true">
+            <svg class="icon-card" viewBox="0 0 64 64" role="img" focusable="false">
+                <rect x="12" y="16" width="40" height="28" rx="5" ry="5" />
+                <line x1="12" y1="24" x2="52" y2="24" />
+            </svg>
         </div>
-      </div>
 
-      <!-- Password Field -->
-      <div class="form-group">
-        <label for="password" class="form-label">Password</label>
-        <div class="password-wrapper">
-          <input 
-            [type]="passwordVisible ? 'text' : 'password'"
-            id="password" 
-            formControlName="password"
-            placeholder="Enter password"
-            class="form-control"
-            [class.is-invalid]="hasError('password')">
-          <button 
-            type="button" 
-            class="password-toggle" 
-            (click)="togglePasswordVisibility()">
-            <i [class]="passwordVisible ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
-          </button>
+        <h2 class="brand">Bank Masr</h2>
+        <p class="subtitle">Sign in to access your banking dashboard</p>
+
+        <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input id="username" class="form-control" placeholder="Enter your username"
+                    formControlName="username" />
+                <div *ngIf="f.username.touched && f.username.invalid" class="hint-err">
+                    Username is required
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label for="password" class="form-label">Password</label>
+                <input id="password" type="password" class="form-control" placeholder="Enter your password"
+                    formControlName="password" />
+                <div *ngIf="f.password.touched && f.password.invalid" class="hint-err">
+                    Password is required (minimum 3 Letters)
+                </div>
+            </div>
+
+
+            <button type="submit" class="btn-primary w-100" [disabled]="form.invalid || loading">
+                {{ loading ? 'Signing in…' : 'Sign In' }}
+            </button>
+        </form>
+
+        <p *ngIf="msg" class="error-msg">{{ msg }}</p>
+
+        <!-- Demo credentials -->
+        <div class="demo-box">
+            <p class="demo-title">Demo Credentials:</p>
+            <p class="demo-helper">Click to auto-fill form</p>
+
+            <div class="demo-item clickable" (click)="fillAdminCredentials()" [class.disabled]="loading">
+                <span class="dot dot-admin"></span>
+                <span class="role">Admin:</span>
+                <span class="cred">{{ demoAdmin?.username }} / {{ demoAdmin?.password }}</span>
+            </div>
+
+            <div class="demo-item clickable" (click)="fillUserCredentials()" [class.disabled]="loading">
+                <span class="dot dot-user"></span>
+                <span class="role">User:</span>
+                <span class="cred">{{ demoUser?.username }} / {{ demoUser?.password }}</span>
+            </div>
         </div>
-        <div class="invalid-feedback" *ngIf="hasError('password')">
-          {{ getErrorMessage('password') }}
-        </div>
-      </div>
-
-      <!-- Submit Button -->
-      <button 
-        type="submit" 
-        class="btn-signin" 
-        [disabled]="isLoading">
-        <span *ngIf="!isLoading">Sign In</span>
-        <span *ngIf="isLoading">
-          <i class="fas fa-spinner fa-spin"></i> Signing in...
-        </span>
-      </button>
-    </form>
-
-    <!-- Demo Credentials -->
-    <div class="demo-section">
-      <h5 class="demo-title">Quick Demo Login:</h5>
-      <p style="font-size: 0.85rem; color: #666; margin-bottom: 15px;">Click to login instantly</p>
-      
-      <div class="demo-buttons">
-        <button 
-          type="button" 
-          class="demo-btn admin-btn"
-          (click)="useAdminAccount()"
-          [disabled]="isLoading">
-          <i class="fas fa-user-shield"></i>
-          <span>Login as Admin</span>
-          <small>admin / admin123</small>
-        </button>
-        
-        <button 
-          type="button" 
-          class="demo-btn user-btn"
-          (click)="useUserAccount()"
-          [disabled]="isLoading">
-          <i class="fas fa-user"></i>
-          <span>Login as User</span>
-          <small>user1 / user123</small>
-        </button>
-        
-        <button 
-          type="button" 
-          class="demo-btn ahmed-btn"
-          (click)="useAhmedAccount()"
-          [disabled]="isLoading">
-          <i class="fas fa-star"></i>
-          <span>Login as Ahmed</span>
-          <small>ahmed / ahmed123</small>
-        </button>
-      </div>
     </div>
-  </div>
 </div>

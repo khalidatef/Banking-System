@@ -10,6 +10,7 @@ import { FundTransferComponent } from './components/fund-transfer/fund-transfer.
 import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard.component';
 import { AdminPanelComponent } from './components/admin-panel/admin-panel.component';
 import { roleGuard } from './guards/role.guard';
+import { loggedOutOnlyGuard } from './guards/logged-out-only.guard';
 import { Role } from './data/mock-users';
 
 export const routes: Routes = [
@@ -20,6 +21,7 @@ export const routes: Routes = [
   { 
     path: 'login', 
     component: LoginComponent, 
+    canActivate: [loggedOutOnlyGuard],
     title: 'Login - Bank Masr' 
   },
   
