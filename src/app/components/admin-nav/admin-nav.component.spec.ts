@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { AdminNavComponent } from './admin-nav.component';
+import { commonTestProviders } from '../../../test-setup';
 
 describe('AdminNavComponent', () => {
   let component: AdminNavComponent;
@@ -8,7 +8,8 @@ describe('AdminNavComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminNavComponent]
+      imports: [AdminNavComponent],
+      providers: commonTestProviders
     })
     .compileComponents();
     

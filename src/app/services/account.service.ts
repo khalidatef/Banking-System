@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { Account } from '../models';
-import { AccountType } from '../enums';
+import { Account, AccountType } from '../models';
 
 @Injectable({
   providedIn: 'root'

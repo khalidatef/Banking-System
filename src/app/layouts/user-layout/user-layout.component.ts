@@ -4,7 +4,8 @@ import { RouterOutlet } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { UserNavComponent } from '../../components/user-nav/user-nav.component';
 import { AuthService, AccountService, TransactionService } from '../../services';
-import { User, Account } from '../../models';
+import { User } from '../../data/mock-users';
+import { Account } from '../../models';
 
 @Component({
   selector: 'app-user-layout',
@@ -68,7 +69,7 @@ export class UserLayoutComponent implements OnInit, OnDestroy {
     if (!this.currentUser) return;
 
     this.isLoading = true;
-    this.accountService.getAccountByUserId(this.currentUser.id)
+    this.accountService.getAccountByUserId(parseInt(this.currentUser.id))
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (accounts) => {

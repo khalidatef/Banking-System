@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { UserNavComponent } from './user-nav.component';
+import { commonTestProviders } from '../../../test-setup';
 
 describe('UserNavComponent', () => {
   let component: UserNavComponent;
@@ -8,7 +8,8 @@ describe('UserNavComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserNavComponent]
+      imports: [UserNavComponent],
+      providers: commonTestProviders
     })
     .compileComponents();
     

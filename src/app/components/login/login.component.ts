@@ -4,7 +4,7 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
 import { Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../services';
-import { UserRole } from '../../enums';
+import { Role } from '../../data/mock-users';
 
 @Component({
   selector: 'app-login',
@@ -72,29 +72,19 @@ export class LoginComponent implements OnInit, OnDestroy {
       
       const startTime = performance.now();
       
-      this.authService.login(username, password)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (response) => {
-            const loginTime = performance.now() - startTime;
-            console.log(`⏱️ Login completed in ${Math.round(loginTime)}ms`);
-            
-            this.stopLoading();
-            
-            if (response.success && response.user) {
-              this.handleSuccessfulLogin(response.user.userName || username);
-            } else {
-              this.handleLoginError(response.message || 'Login failed. Please try again.');
-            }
-          },
-          error: (error) => {
-            const loginTime = performance.now() - startTime;
-            console.error(`❌ Login failed in ${Math.round(loginTime)}ms:`, error);
-            
-            this.stopLoading();
-            this.handleLoginError('An error occurred. Please try again.');
-          }
-        });
+      // Use the team's synchronous login method
+      const role = this.authService.login(username, password);
+      const loginTime = performance.now() - startTime;
+      console.log(`⏱️ Login completed in ${Math.round(loginTime)}ms`);
+      
+      this.stopLoading();
+      
+      if (role) {
+        this.handleSuccessfulLogin(username);
+      } else {
+        const errorMsg = this.authService.lastError === 'INACTIVE' ? 'Account is inactive' : 'Invalid username or password';
+        this.handleLoginError(errorMsg);
+      }
     } else {
       this.markFormGroupTouched();
     }
@@ -162,55 +152,108 @@ export class LoginComponent implements OnInit, OnDestroy {
    * Auto-fill admin credentials
    */
   loginAsAdmin(): void {
+    console.log('📝 loginAsAdmin() called');
+    console.log('Form before patch:', this.loginForm.value);
     this.loginForm.patchValue({
       username: 'admin',
       password: 'admin123'
     });
+    console.log('Form after patch:', this.loginForm.value);
+    // Force change detection
+    this.loginForm.markAsDirty();
+    this.loginForm.updateValueAndValidity();
+  }
+
+  /**
+   * Quick login as admin
+   */
+  quickLoginAsAdmin(): void {
+    console.log('🚀 Quick admin login started');
+    this.loginForm.patchValue({
+      username: 'admin',
+      password: 'admin123'
+    });
+    this.loginForm.markAsDirty();
+    this.loginForm.updateValueAndValidity();
+    console.log('📝 Form filled with admin credentials:', this.loginForm.value);
+    console.log('Form valid:', this.loginForm.valid);
+    
+    // Small delay to ensure form is updated, then submit
+    setTimeout(() => {
+      this.onSubmit();
+    }, 100);
   }
 
   /**
    * Auto-fill user credentials
    */
   loginAsUser(): void {
+    console.log('📝 loginAsUser() called');
+    console.log('Form before patch:', this.loginForm.value);
     this.loginForm.patchValue({
       username: 'user1',
       password: 'user123'
     });
+    console.log('Form after patch:', this.loginForm.value);
+    // Force change detection
+    this.loginForm.markAsDirty();
+    this.loginForm.updateValueAndValidity();
+  }
+
+  /**
+   * Quick login as user
+   */
+  quickLoginAsUser(): void {
+    console.log('🚀 Quick user login started');
+    this.loginForm.patchValue({
+      username: 'user1',
+      password: 'user123'
+    });
+    this.loginForm.markAsDirty();
+    this.loginForm.updateValueAndValidity();
+    console.log('📝 Form filled with user credentials:', this.loginForm.value);
+    console.log('Form valid:', this.loginForm.valid);
+    
+    // Small delay to ensure form is updated, then submit
+    setTimeout(() => {
+      this.onSubmit();
+    }, 100);
   }
 
   /**
    * Auto-fill ahmed credentials
    */
   loginAsAhmed(): void {
+    console.log('📝 loginAsAhmed() called');
+    console.log('Form before patch:', this.loginForm.value);
     this.loginForm.patchValue({
       username: 'ahmed',
       password: 'ahmed123'
     });
+    console.log('Form after patch:', this.loginForm.value);
+    // Force change detection
+    this.loginForm.markAsDirty();
+    this.loginForm.updateValueAndValidity();
   }
 
   /**
-   * Get form control error message
+   * Quick login as ahmed
    */
-  getErrorMessage(controlName: string): string {
-    const control = this.loginForm.get(controlName);
-    if (control && control.errors && control.touched) {
-      if (control.errors['required']) {
-        return `${this.capitalize(controlName)} is required`;
-      }
-      if (control.errors['minlength']) {
-        const requiredLength = control.errors['minlength'].requiredLength;
-        return `${this.capitalize(controlName)} must be at least ${requiredLength} characters`;
-      }
-    }
-    return '';
-  }
-
-  /**
-   * Check if form control has error
-   */
-  hasError(controlName: string): boolean {
-    const control = this.loginForm.get(controlName);
-    return control ? control.invalid && control.touched : false;
+  quickLoginAsAhmed(): void {
+    console.log('🚀 Quick ahmed login started');
+    this.loginForm.patchValue({
+      username: 'ahmed',
+      password: 'ahmed123'
+    });
+    this.loginForm.markAsDirty();
+    this.loginForm.updateValueAndValidity();
+    console.log('📝 Form filled with ahmed credentials:', this.loginForm.value);
+    console.log('Form valid:', this.loginForm.valid);
+    
+    // Small delay to ensure form is updated, then submit
+    setTimeout(() => {
+      this.onSubmit();
+    }, 100);
   }
 
   /**
@@ -219,9 +262,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   private redirectToAppropriateRoute(): void {
     const userRole = this.authService.getUserRole();
     
-    if (userRole === UserRole.Admin) {
+    if (userRole === Role.Admin) {
       this.router.navigate(['/admin']);
-    } else if (userRole === UserRole.User) {
+    } else if (userRole === Role.User) {
       this.router.navigate(['/user']);
     } else {
       this.router.navigate(['/login']);
@@ -253,10 +296,39 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * Capitalize first letter
-   */
+  // Helper methods
+  hasError(controlName: string): boolean {
+    const control = this.loginForm.get(controlName);
+    return control ? control.invalid && control.touched : false;
+  }
+
+  getErrorMessage(controlName: string): string {
+    const control = this.loginForm.get(controlName);
+    if (control && control.errors && control.touched) {
+      if (control.errors['required']) {
+        return `${this.capitalize(controlName)} is required`;
+      }
+    }
+    return '';
+  }
+
   private capitalize(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  // Demo account methods - directly login without manual submit
+  useAdminAccount(): void {
+    console.log('🎯 Admin demo account clicked - auto login');
+    this.quickLoginAsAdmin();
+  }
+
+  useUserAccount(): void {
+    console.log('🎯 User demo account clicked - auto login');
+    this.quickLoginAsUser();
+  }
+
+  useAhmedAccount(): void {
+    console.log('🎯 Ahmed demo account clicked - auto login');
+    this.quickLoginAsAhmed();
   }
 }

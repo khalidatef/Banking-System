@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { QuickActionCardComponent } from './quick-action-card.component';
+import { commonTestProviders } from '../../../test-setup';
 
 describe('QuickActionCardComponent', () => {
   let component: QuickActionCardComponent;
@@ -8,7 +8,8 @@ describe('QuickActionCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [QuickActionCardComponent]
+      imports: [QuickActionCardComponent],
+      providers: commonTestProviders
     })
     .compileComponents();
     

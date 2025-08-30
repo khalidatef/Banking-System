@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../services';
-import { User } from '../../models';
+import { User } from '../../data/mock-users';
 
 @Component({
   selector: 'app-admin-nav',

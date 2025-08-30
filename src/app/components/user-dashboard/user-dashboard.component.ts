@@ -66,13 +66,15 @@ export class UserDashboardComponent implements OnInit, OnDestroy {
   }
 
   private loadUserData(): void {
-    const currentUserId = this.authService.getCurrentUserId();
+    const currentUser = this.authService.getCurrentUser();
     
-    if (!currentUserId) {
+    if (!currentUser) {
       console.warn('No current user found');
       this.isLoading = false;
       return;
     }
+    
+    const currentUserId = currentUser.id;
 
     // Load user name
     this.userName = this.authService.getCurrentUserDisplayName();

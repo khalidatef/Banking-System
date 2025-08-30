@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../services';
-import { User } from '../../models';
+import { User } from '../../data/mock-users';
 
 @Component({
   selector: 'app-user-nav',
@@ -69,6 +69,6 @@ export class UserNavComponent implements OnInit, OnDestroy {
    * Get user display name
    */
   getUserDisplayName(): string {
-    return this.currentUser ? this.currentUser.userName : 'User';
+    return this.currentUser ? this.currentUser.username : 'User';
   }
 }
