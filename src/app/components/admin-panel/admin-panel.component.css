@@ -49,9 +49,87 @@ table {
   color: #721c24;
   border: 1px solid #f5c6cb;
 }
-.bg-color-active{
+.bg-color-active {
   background-color: #6c9c78;
 }
-.bg-color-Inactive{
+.bg-color-Inactive {
   background-color: rgb(192, 89, 89);
+}
+.head {
+  font-size: 1.8rem;
+}
+.sub-head {
+  font-size: 0.95rem;
+  color: #6c757d;
+}
+.table-card-style {
+  margin-left: 40px;
+  margin-right: 40px;
+}
+button.btn {
+  min-width: 120px;
+}
+
+.table-responsive-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table-responsive-wrapper table {
+  width: 100%;
+  min-width: 700px;
+}
+
+@media (max-width: 992px) {
+  .d-flex > .w-50 {
+    width: 100% !important;
+    margin-right: 0 !important;
+  }
+
+  .d-flex.justify-content-between {
+    flex-direction: column;
+    gap: 15px;
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+  }
+
+  .table-card-style {
+    margin-left: 10px !important;
+    margin-right: 10px !important;
+  }
+}
+
+.modal-dialog {
+  max-width: 95%;
+  margin: 1.5rem auto;
+}
+
+@media (max-width: 576px) {
+  .modal-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+  .modal-footer button {
+    width: 100%;
+  }
+}
+
+.alert {
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) {
+  .head {
+    font-size: 1.5rem;
+  }
+  .sub-head {
+    font-size: 0.85rem;
+  }
+  button.btn {
+    font-size: 0.9rem;
+  }
 }
