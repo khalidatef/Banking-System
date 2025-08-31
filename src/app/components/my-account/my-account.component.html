@@ -24,7 +24,7 @@
         <div class="col-md-4 text-md-end">
           <div class="fw-normal">Current Balance</div>
           <div class="fw-bold text-success mt-2">
-            {{ account?.balance | currency:'USD':'symbol':'1.2-2' }}
+            {{ account?.balance | currency : "USD" : "symbol" : "1.2-2" }}
           </div>
         </div>
       </div>
@@ -32,54 +32,56 @@
   </div>
 
   <!-- Recent Transactions -->
-<div class="card shadow-sm">
-  <div class="card-header fw-bold">Recent Transactions</div>
-  <div class="card-body">
-    <ng-container *ngIf="transactions.length > 0; else noRecent">
-      <div
-        *ngFor="let t of transactions | slice:0:5"
-        class="d-flex justify-content-between align-items-center border-bottom py-3"
-      >
-        <!-- Left: Icon + Info -->
-        <div class="d-flex align-items-center">
-          <span class="me-3 fs-4">
-            <i
-              class="bi"
-              [ngClass]="{
-                'bi-arrow-up-circle-fill text-success': t.type === 'Credit',
-                'bi-arrow-down-circle-fill text-danger': t.type === 'Debit'
-              }"
-            ></i>
-          </span>
-          <div>
-            <h4 class="mb-0 fw-semibold" style="font-size: 1 rem;">{{ t.description }}</h4>
-            <div class="text-muted small" style="font-size: 0.8 rem;">
-              {{ t.date | date:'mediumDate' }}
+  <div class="card shadow-sm">
+    <div class="card-header fw-bold">Recent Transactions</div>
+    <div class="card-body">
+      <ng-container *ngIf="transactions.length > 0; else noRecent">
+        <div
+          *ngFor="let t of transactions | slice : 0 : 5"
+          class="d-flex justify-content-between align-items-center border-bottom py-3"
+        >
+          <!-- Left: Icon + Info -->
+          <div class="d-flex align-items-center">
+            <span class="me-3 fs-4">
+              <i
+                class="bi"
+                [ngClass]="{
+                  'bi-arrow-up-circle-fill text-success': t.type === 'Credit',
+                  'bi-arrow-down-circle-fill text-danger': t.type === 'Debit'
+                }"
+              ></i>
+            </span>
+            <div>
+              <h4 class="mb-0 fw-semibold" style="font-size: 1 rem">
+                {{ t.description }}
+              </h4>
+              <div class="text-muted small" style="font-size: 0.8 rem">
+                {{ t.date | date : "mediumDate" }}
+              </div>
             </div>
           </div>
-        </div>
 
-        <!-- Right: Amount + Type -->
-        <div class="text-end">
-          <span
-            class="fw-bold d-block"
-            [ngClass]="{
-              'text-success': t.type === 'Credit',
-              'text-danger': t.type === 'Debit'
-            }"
-          >
-            {{ t.type === 'Credit' ? '+' : '-' }}
-            {{ t.amount | currency }}
-          </span>
-          <small class="text-muted">{{ t.type }}</small>
+          <!-- Right: Amount + Type -->
+          <div class="text-end">
+            <span
+              class="fw-bold d-block"
+              [ngClass]="{
+                'text-success': t.type === 'Credit',
+                'text-danger': t.type === 'Debit'
+              }"
+            >
+              {{ t.type === "Credit" ? "+" : "-" }}
+              {{ t.amount | currency }}
+            </span>
+            <small class="text-muted">{{ t.type }}</small>
+          </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
 
-    <!-- No Transactions -->
-    <ng-template #noRecent>
-      <p class="text-muted text-center mt-3">No recent transactions</p>
-    </ng-template>
+      <!-- No Transactions -->
+      <ng-template #noRecent>
+        <p class="text-muted text-center mt-3">No recent transactions</p>
+      </ng-template>
+    </div>
   </div>
 </div>
-

@@ -5,17 +5,113 @@
       <p class="sub-head">Manage users and system settings</p>
     </div>
     <div class="me-5 mt-3">
-      <!-- Button trigger modal -->
+      <!-- Button trigger modal Add user-->
       <button
         type="button"
         class="btn btn-primary rounded-3"
         data-bs-toggle="modal"
-        data-bs-target="#exampleModal"
+        data-bs-target="#AddUser"
+        (click)="clearAddUserForm()"
       >
         <i class="fa-solid fa-user-plus me-2"></i>Add User
       </button>
+      <!-- Modal Add user -->
+      <div
+        class="modal fade justify-content-center align-content-center"
+        id="AddUser"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Adduser</h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <!-- alerts -->
+              <div *ngIf="errorMessage" class="alert alert-danger">
+                {{ errorMessage }}
+              </div>
+              <div *ngIf="successMessage" class="alert alert-success">
+                {{ successMessage }}
+              </div>
+              <form>
+                <div class="d-flex">
+                  <div class="mb-3 w-50 me-2">
+                    <label class="form-label">Username</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="formData.username"
+                      name="username"
+                      required
+                    />
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label class="form-label">Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      [(ngModel)]="formData.password"
+                      name="password"
+                      [required]="!isEdit"
+                    />
+                  </div>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    [(ngModel)]="formData.email"
+                    name="email"
+                  />
+                </div>
+                <div class="d-flex">
+                  <div class="mb-3 w-50 me-2">
+                    <label class="form-label">Phone</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      [(ngModel)]="formData.phone"
+                      name="phone"
+                    />
+                  </div>
+                  <div class="mb-3 w-50">
+                    <label class="form-label">Role</label>
+                    <select
+                      class="form-select"
+                      [(ngModel)]="formData.role"
+                      name="role"
+                    >
+                      <option [value]="Role.User">User</option>
+                      <option [value]="Role.Admin">Admin</option>
+                    </select>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" data-bs-dismiss="modal">
+                Close
+              </button>
+              <button class="btn btn-primary" (click)="saveUser()">
+                {{ isEdit ? "Update User" : "Add User" }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+  <!-- table user -->
   <div class="table-card-style ms-5 mt-5">
     <div class="head mb-4">
       <h1 class="head fw-semibold">
@@ -36,7 +132,7 @@
           </tr>
         </thead>
         <tbody>
-          @for (user of users; track user) {
+          @for (user of users; track user.id ;let i = $index) {
           <tr>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
@@ -52,11 +148,9 @@
             <td>
               <span
                 class="badge"
-                [ngClass]="
-                  user.status === 'Active' ? 'bg-primary' : 'bg-danger'
-                "
+                [ngClass]="user.isActive === true ? 'bg-primary' : 'bg-danger'"
               >
-                {{ user.status }}
+                {{ user.isActive ? "Active" : "Inactive" }}
               </span>
             </td>
             <td>
@@ -64,27 +158,27 @@
                 class="btn button btn-sm me-1 rounded-3 text-dark fw-medium"
                 (click)="toggleStatus(user)"
               >
-                <i
-                  [ngClass]="
-                    user.status == 'Active'
-                      ? 'fa fa-eye'
-                      : 'fa far fa-eye-slash'
-                  "
-                ></i>
+                <i [ngClass]="user.isActive ? 'fa fa-eye' : 'fa fa-eye-slash'">
+                  ></i
+                >
 
-                {{ user.status === "Active" ? "Deactivate" : "Activate" }}
+                {{ user.isActive ? "Deactivate" : "Activate" }}
               </button>
 
+              <!-- Button trigger modal Edit user -->
               <button
+                type="button"
                 class="btn button btn-sm me-1 rounded-3 text-dark fw-medium"
-                (click)="editUser(user)"
+                data-bs-toggle="modal"
+                data-bs-target="#EditUser"
+                (click)="openEditUser(user, i)"
               >
                 <i class="fa-solid fa-pen-to-square"></i>
               </button>
 
               <button
                 class="btn button btn-sm rounded-3 text-dark fw-medium"
-                (click)="deleteUser(user)"
+                (click)="deleteUser(user.id)"
               >
                 <i class="fa fa-trash"></i>
               </button>
@@ -95,10 +189,11 @@
       </table>
     </div>
   </div>
-  <!-- Modal -->
+
+  <!-- Modal Edit user -->
   <div
-    class="modal fade"
-    id="exampleModal"
+    class="modal fade justify-content-center align-content-center"
+    id="EditUser"
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
@@ -106,7 +201,7 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <h1 class="modal-title fs-5" id="exampleModalLabel">edit user</h1>
           <button
             type="button"
             class="btn-close"
@@ -114,16 +209,77 @@
             aria-label="Close"
           ></button>
         </div>
-        <div class="modal-body">...</div>
+        <div class="modal-body">
+          <!-- alerts -->
+          <div *ngIf="errorMessage" class="alert alert-danger">
+            {{ errorMessage }}
+          </div>
+          <div *ngIf="successMessage" class="alert alert-success">
+            {{ successMessage }}
+          </div>
+          <form #userForm="ngForm">
+            <div class="d-flex">
+              <div class="mb-3 w-50 me-2">
+                <label class="form-label">Username</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="formData.username"
+                  name="username"
+                  required
+                />
+              </div>
+              <div class="mb-3 w-50">
+                <label class="form-label">Password</label>
+                <input
+                  type="password"
+                  class="form-control"
+                  [(ngModel)]="formData.password"
+                  name="password"
+                  [required]="!isEdit"
+                />
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                [(ngModel)]="formData.email"
+                name="email"
+              />
+            </div>
+            <div class="d-flex">
+              <div class="mb-3 w-50 me-2">
+                <label class="form-label">Phone</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  [(ngModel)]="formData.phone"
+                  name="phone"
+                />
+              </div>
+              <div class="mb-3 w-50">
+                <label class="form-label">Role</label>
+                <select
+                  class="form-select"
+                  [(ngModel)]="formData.role"
+                  name="role"
+                >
+                  <option [value]="Role.User">User</option>
+                  <option [value]="Role.Admin">Admin</option>
+                </select>
+              </div>
+            </div>
+          </form>
+        </div>
         <div class="modal-footer">
-          <button
-            type="button"
-            class="btn btn-secondary"
-            data-bs-dismiss="modal"
-          >
+          <button class="btn btn-secondary" data-bs-dismiss="modal">
             Close
           </button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button class="btn btn-primary" (click)="saveUser()">
+            Update User
+          </button>
         </div>
       </div>
     </div>

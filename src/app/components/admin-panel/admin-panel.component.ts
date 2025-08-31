@@ -1,61 +1,106 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-
-interface User {
-  username: string;
-  email: string;
-  phone: string;
-  role: 'Admin' | 'User';
-  status: 'Active' | 'Inactive';
-}
+import { users, Role } from '../../data/mock-users';
+import { User } from '../../data/user';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './admin-panel.component.html',
   styleUrl: './admin-panel.component.css',
 })
 export class AdminPanelComponent {
-  users: User[] = [
-    {
-      username: 'admin',
-      email: 'admin@bank.com',
-      phone: '+1234567890',
-      role: 'Admin',
-      status: 'Active',
-    },
-    {
-      username: 'user1',
-      email: 'user1@bank.com',
-      phone: '+1234567891',
-      role: 'User',
-      status: 'Active',
-    },
-    {
-      username: 'user2',
-      email: 'user2@bank.com',
-      phone: '+1234567892',
-      role: 'User',
-      status: 'Active',
-    },
-    {
-      username: 'user3',
-      email: 'user3@bank.com',
-      phone: '+1234567893',
-      role: 'User',
-      status: 'Inactive',
-    },
-  ];
+  users: User[] = users;
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
+  Role = Role;
+  showModal = false;
+  isEdit = false;
+  editIndex: number | null = null;
+  formData: User = {
+    id: '',
+    username: '',
+    password: '',
+    role: Role.Admin,
+    isActive: true,
+    email: '',
+    phone: '',
+  };
+  openEditUser(user: User, index: number) {
+    this.isEdit = true;
+    this.editIndex = index;
+    this.formData = { ...user, password: '' };
+    this.showModal = true;
+    this.errorMessage = null;
+    this.successMessage = null;
+  }
+  clearAddUserForm(): void {
+    this.formData = {
+      id: (this.users.length + 1).toString(),
+      username: '',
+      password: '',
+      role: Role.User,
+      isActive: true,
+      email: '',
+      phone: '',
+    };
+  }
+  saveUser() {
+    this.errorMessage = null;
+    this.successMessage = null;
 
+    const existsUser = this.users.find(
+      (u, i) =>
+        i !== this.editIndex &&
+        u.username.toLowerCase() === this.formData.username.toLowerCase()
+    );
+
+    if (existsUser) {
+      this.errorMessage = `User already exists and the current role is: ${existsUser.role} `;
+      return;
+    }
+
+    if (this.isEdit && this.editIndex !== null) {
+      this.users[this.editIndex] = { ...this.formData };
+      this.successMessage = '✅ User updated successfully!';
+    } else {
+      this.users.push({ ...this.formData });
+      this.successMessage = '✅ User added successfully!';
+    }
+    localStorage.setItem('users', JSON.stringify(this.users));
+    setTimeout(() => this.closeModal(), 2000);
+  }
+
+  closeModal() {
+    this.showModal = false;
+    this.errorMessage = null;
+    this.successMessage = null;
+  }
+
+  displayUsers(): void {
+    const saved = localStorage.getItem('users');
+    if (saved) {
+      this.users = JSON.parse(saved);
+    } else {
+      this.users = users;
+      localStorage.setItem('users', JSON.stringify(this.users));
+    }
+  }
+  ngOnInit(): void {
+    this.displayUsers();
+  }
   toggleStatus(user: User): void {
-    user.status = user.status === 'Active' ? 'Inactive' : 'Active';
+    user.isActive = !user.isActive;
+    localStorage.setItem('users', JSON.stringify(this.users));
+    this.users = [...this.users];
   }
-  editUser(user: any) {
-    alert(`Editing user: ${user.username}`);
-  }
-
-  deleteUser(user: any) {
-    this.users = this.users.filter((u) => u.username !== user.username);
+  deleteUser(id: string) {
+    const index = this.users.findIndex((u) => u.id === id);
+    if (index !== -1) {
+      this.users.splice(index, 1);
+      localStorage.setItem('users', JSON.stringify(this.users));
+    }
   }
 }
