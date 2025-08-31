@@ -4,6 +4,7 @@ import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { users } from '../../data/mock-users';
+import { UserStoreService } from '../../services/user-store.service';
 
 @Component({
   selector: 'app-login',
@@ -16,8 +17,8 @@ export class LoginComponent {
   msg = '';
   loading = false;
 
-  demoAdmin = users.find(u => u.role === 'Admin');
-  demoUser  = users.find(u => u.role === 'User');
+  demoAdmin: { username: string; password: string } | null = null;
+  demoUser:  { username: string; password: string } | null = null;
 
   form = this.fb.group({
     username: ['', [Validators.required]],
@@ -27,8 +28,18 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    private router: Router
+    private router: Router,
+    private store: UserStoreService
   ) {}
+  
+   ngOnInit(): void {
+    const all = this.store.getAll();
+    const a = all.find(u => u.role === 'Admin');
+    const u = all.find(u => u.role === 'User');
+
+    this.demoAdmin = a ? { username: a.username, password: a.password } : null;
+    this.demoUser  = u ? { username: u.username, password: u.password } : null;
+  }
 
   submit() {
     this.msg = '';
@@ -43,7 +54,6 @@ export class LoginComponent {
     const role = this.auth.login(username, password); 
 
     if (!role) {
-      // messages
       this.msg = this.auth.lastError === 'INACTIVE'
         ? 'Account is inactive. Please contact the admin.'
         : 'Invalid username or password.';
