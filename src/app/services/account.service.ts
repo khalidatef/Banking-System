@@ -18,6 +18,14 @@ export class AccountService {
     return this.http.get<Account[]>(`${this.baseUrl}/Account`);
   }
 
+  updateAccount(account: Account): Observable<Account> {
+    return this.http.put<Account>(`${this.baseUrl}/Account/${account.id}`, account);
+  }
+
+  getAccountById(id: string): Observable<Account> {
+    return this.http.get<Account>(`${this.baseUrl}/Account/${id}`);
+  }
+
   getTransactions(): Observable<Transaction[]> {
     return this.http.get<Transaction[]>(`${this.baseUrl}/Transaction`);
   }
