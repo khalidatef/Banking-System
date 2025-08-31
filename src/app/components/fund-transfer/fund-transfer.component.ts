@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { AccountService } from '../../services/account.service';
 import { AuthService } from '../../services/auth.service';
 import { Transaction } from '../../models/transaction';
-import { TransactionType } from '../../models/TransactionType';
 import { Account } from '../../models/Account';
-import { AccountType } from '../../models/AccountType';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-fund-transfer',
@@ -16,6 +16,7 @@ import { AccountType } from '../../models/AccountType';
   styleUrls: ['./fund-transfer.component.css']
 })
 export class FundTransferComponent {
+  // form fields
   transfer = {
     fromAccountNo: '',
     toAccountNo: '',
@@ -35,9 +36,10 @@ export class FundTransferComponent {
     const username = this.auth.getUsername();
     if (!username) return;
 
+  
     this.accountService.getAccountForUser(username).subscribe(acc => {
       if (acc) {
-        this.userAccounts = [acc];
+        this.userAccounts = [acc]; 
         this.transfer.fromAccountNo = acc.accountNo;
 
         this.accountService.getTransactionsByAccountNo(acc.accountNo)
@@ -46,56 +48,74 @@ export class FundTransferComponent {
     });
   }
 
-  // --- helper methods ---
-  private createTransaction(): Transaction {
-    return {
-      id: Date.now().toString(),
-      fromAccountNo: this.transfer.fromAccountNo,
-      ToAccountNo: this.transfer.toAccountNo,
-      amount: this.transfer.amount,
-      description: this.transfer.description,
-      date: new Date(),
-      type: TransactionType.Debit
-    };
-  }
-
-  private updateSenderBalance(amount: number) {
-    const senderAcc = this.userAccounts[0];
-    senderAcc.balance -= amount;
-    return this.accountService.updateAccount(senderAcc);
-  }
-
-  private updateReceiverBalance(amount: number) {
-    this.accountService.getAccounts().subscribe(accounts => {
-      const receiverAcc = accounts.find(a => a.accountNo === this.transfer.toAccountNo);
-      if (receiverAcc) {
-        receiverAcc.balance += amount;
-        this.accountService.updateAccount(receiverAcc).subscribe();
-      }
-    });
-  }
-
-  private resetForm() {
-    this.transfer.toAccountNo = '';
-    this.transfer.amount = 0;
-    this.transfer.description = '';
-  }
-
-  // --- main method ---
+  // Main
   transferFunds() {
-    if (!this.transfer.toAccountNo || !this.transfer.amount) return;
+   
+    if (!this.transfer.fromAccountNo || !this.transfer.toAccountNo || !this.transfer.amount || this.transfer.amount <= 0) {
+      alert("Please fill in all fields");
+      return;
+    }
 
-    // 1) Create and push transaction
-    const newTx = this.createTransaction();
-    this.transactions.push(newTx);
-    this.accountService.addTransaction(newTx).subscribe();
+    this.getAccountByNo(this.transfer.fromAccountNo).subscribe(sender => {
+      this.getAccountByNo(this.transfer.toAccountNo).subscribe(receiver => {
+        if (!sender || !receiver) {
+          alert("Invalid accounts");
+          return;
+        }
 
-    // 2) Update balances
-    this.updateSenderBalance(this.transfer.amount).subscribe(() => {
-      this.updateReceiverBalance(this.transfer.amount);
+        if (sender.balance < this.transfer.amount) {
+          alert("Insufficient funds ❌");
+          return;
+        }
+
+        this.updateBalances(sender, receiver, this.transfer.amount);
+      });
+    });
+  }
+
+  getAccountByNo(accountNo: string): Observable<Account | undefined> {
+    return this.accountService.getAccounts().pipe(
+      map(accounts => accounts.find(acc => acc.accountNo === accountNo))
+    );
+  }
+
+
+  updateBalances(sender: Account, receiver: Account, amount: number) {
+    sender.balance -= amount;
+    receiver.balance += amount;
+
+    this.accountService.updateAccount(sender).subscribe(() => {
+      this.accountService.updateAccount(receiver).subscribe(() => {
+        this.recordTransaction(sender.accountNo, receiver.accountNo, amount, this.transfer.description);
+        alert("✅ Transfer successful");
+
+        // reset form
+        this.transfer.toAccountNo = '';
+        this.transfer.amount = 0;
+        this.transfer.description = '';
+      });
+    });
+  }
+
+
+  recordTransaction(from: string, to: string, amount: number, desc: string) {
+
+    const newTx: Omit<Transaction, 'id'> = {
+      fromAccountNo: from,
+      ToAccountNo: to,
+      amount,
+      description: desc,
+      date: new Date().toISOString(), 
+      type: 'Debit'
+    };
+
+
+    this.accountService.addTransaction(newTx).subscribe({
+      next: tx => this.transactions.push(tx),
+      error: err => console.error('Transaction POST failed:', err)
     });
 
-    // 3) Reset form
-    this.resetForm();
-  }
+    console.log('Transaction payload:', newTx);
+
+}
 }

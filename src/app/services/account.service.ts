@@ -30,9 +30,13 @@ export class AccountService {
     return this.http.get<Transaction[]>(`${this.baseUrl}/Transaction`);
   }
 
-  addTransaction(transaction: Transaction): Observable<Transaction> {
-    return this.http.post<Transaction>(`${this.baseUrl}/Transaction`, transaction);
-  }
+  addTransaction(transaction: Omit<Transaction, 'id'>): Observable<Transaction> {
+  return this.http.post<Transaction>(`${this.baseUrl}/Transaction`, transaction, {
+    headers: { 'Content-Type': 'application/json' }
+  });
+}
+
+
 
   getTransactionsByAccountNo(accountNo: string): Observable<Transaction[]> {
   return this.http.get<Transaction[]>(`${this.baseUrl}/Transaction`).pipe(
