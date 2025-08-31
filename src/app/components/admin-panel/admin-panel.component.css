@@ -66,10 +66,6 @@ table {
   margin-left: 40px;
   margin-right: 40px;
 }
-button.btn {
-  min-width: 120px;
-}
-
 .table-responsive-wrapper {
   width: 100%;
   overflow-x: auto;
@@ -100,10 +96,7 @@ button.btn {
   }
 }
 
-.modal-dialog {
-  max-width: 95%;
-  margin: 1.5rem auto;
-}
+
 
 @media (max-width: 576px) {
   .modal-footer {
