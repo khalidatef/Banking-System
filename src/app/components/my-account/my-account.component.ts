@@ -43,10 +43,13 @@ loadAccount(): void {
 }
 
 
-  loadTransactions(accountNo: string) {
+loadTransactions(accountNo: string) {
   this.accountService.getTransactionsByAccountNo(accountNo).subscribe(txs => {
-    this.transactions = txs;
+    this.transactions = txs.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
   });
 }
+
 
 }

@@ -4,8 +4,8 @@
     <div class="d-flex justify-content-center align-items-center mb-2">
       <i class="bi bi-arrow-left-right fs-2 text-primary"></i>
     </div>
-    <h3 class="fw-bold">Fund Transfer</h3>
-    <p class="text-muted">Transfer money between accounts securely</p>
+    <h1 class="fw-bold">Fund Transfer</h1>
+    <p class="text-muted" style="font-size: medium;">Transfer money between accounts securely</p>
   </div>
 
   <div class="row">
@@ -13,10 +13,10 @@
     <div class="col-md-6">
       <div class="card shadow-sm">
         <div class="card-body">
-          <h6 class="fw-bold mb-3">
+          <h3 class="fw-bold mb-1">
             <i class="bi bi-cash-coin me-2"></i> Transfer Details
-          </h6>
-          <p class="text-muted">Enter the transfer information below</p>
+          </h3>
+          <h4 class="text-muted">Enter the transfer information below</h4>
 
           <form (ngSubmit)="transferFunds()" #transferForm="ngForm">
             <!-- From Account -->
@@ -63,15 +63,15 @@
     <div class="col-md-6">
       <div class="card shadow-sm">
         <div class="card-body">
-          <h6 class="fw-bold mb-3">Your Accounts</h6>
-          <p class="text-muted">Current balances for your accounts</p>
+          <h3 class="fw-bold mb-1">Your Accounts</h3>
+          <h4 class="text-muted">Current balances for your accounts</h4>
 
           <div *ngFor="let acc of userAccounts" class="d-flex justify-content-between align-items-center border rounded p-3 mb-2">
             <div>
-              <div class="fw-semibold">{{ acc.accountType }}</div>
-              <small class="text-muted">Account ID: {{ acc.id }}</small>
+              <div class="fw-semibold" style="font-size: medium;">{{ acc.accountType }}</div>
+              <small class="text-muted " style="font-size: medium;">Account ID: {{ acc.id }}</small>
             </div>
-            <div class="fw-bold text-success">
+            <div class="fw-bold text-success" style="font-size: medium;">
               {{ acc.balance | currency:'USD':'symbol':'1.2-2' }}
               <div class="small text-success">Available</div>
             </div>

@@ -40,11 +40,23 @@ export class AccountService {
 
   getTransactionsByAccountNo(accountNo: string): Observable<Transaction[]> {
   return this.http.get<Transaction[]>(`${this.baseUrl}/Transaction`).pipe(
-    map(allTx => allTx.filter(
-      t => t.fromAccountNo === accountNo || t.ToAccountNo === accountNo
-    ))
+    map(allTx => allTx
+      .filter(t => t.fromAccountNo === accountNo || t.ToAccountNo === accountNo)
+      .map(t => {
+        const tx = { ...t };
+
+        if (tx.ToAccountNo === accountNo) {
+          tx.type = 'Credit';
+        } else {
+          tx.type = 'Debit';
+        }
+
+        return tx;
+      })
+    )
   );
 }
+
 
 getAccountForUser(username: string): Observable<Account | null> {
   return this.getAccounts().pipe(

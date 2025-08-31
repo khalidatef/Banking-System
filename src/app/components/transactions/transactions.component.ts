@@ -35,7 +35,12 @@ export class TransactionsComponent implements OnInit {
     if (acc) {
       this.accountNo = acc.accountNo;
       this.accountService.getTransactionsByAccountNo(acc.accountNo)
-        .subscribe(tx => this.transactions = tx);
+      .subscribe(tx => {
+      this.transactions = tx.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    );
+  });
+
     }
   });
 }
