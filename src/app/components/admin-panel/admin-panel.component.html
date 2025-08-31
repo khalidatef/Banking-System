@@ -11,7 +11,6 @@
         class="btn btn-primary rounded-3"
         data-bs-toggle="modal"
         data-bs-target="#AddUser"
-        (click)="clearAddUserForm()"
       >
         <i class="fa-solid fa-user-plus me-2"></i>Add User
       </button>
@@ -26,43 +25,65 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5" id="exampleModalLabel">Adduser</h1>
+              <div class="Content">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                  Add New User
+                </h1>
+                <p>Create a new user account</p>
+              </div>
               <button
                 type="button"
                 class="btn-close"
                 data-bs-dismiss="modal"
                 aria-label="Close"
+                (click)="formreset()"
               ></button>
             </div>
             <div class="modal-body">
-              <!-- alerts -->
-              <div *ngIf="errorMessage" class="alert alert-danger">
-                {{ errorMessage }}
+              @if (message) {
+              <div
+                class="alert"
+                [ngClass]="{
+                  'alert-success': messageType === 'success',
+                  'alert-danger': messageType === 'error'
+                }"
+              >
+                {{ message }}
               </div>
-              <div *ngIf="successMessage" class="alert alert-success">
-                {{ successMessage }}
-              </div>
-              <form>
+              }
+              <form [formGroup]="addUserForm" (ngSubmit)="addUser()">
                 <div class="d-flex">
                   <div class="mb-3 w-50 me-2">
                     <label class="form-label">Username</label>
                     <input
                       type="text"
                       class="form-control"
-                      [(ngModel)]="formData.username"
-                      name="username"
-                      required
+                      formControlName="userName"
                     />
+                    @if(addUserForm.get('userName')?.errors
+                    &&addUserForm.get('userName')?.touched){
+                    <div class="bg-warning text-center mt-2 p-2 rounded-2">
+                      @if(addUserForm.get('userName')?.getError('required')){
+                      <p class="m-0">User name is required</p>
+                      }
+                    </div>
+                    }
                   </div>
                   <div class="mb-3 w-50">
                     <label class="form-label">Password</label>
                     <input
                       type="password"
                       class="form-control"
-                      [(ngModel)]="formData.password"
-                      name="password"
-                      [required]="!isEdit"
+                      formControlName="password"
                     />
+                    @if(addUserForm.get('password')?.errors
+                    &&addUserForm.get('password')?.touched){
+                    <div class="bg-warning text-center mt-2 p-2 rounded-2">
+                      @if(addUserForm.get('password')?.getError('required')){
+                      <p class="m-0">Password is required</p>
+                      }
+                    </div>
+                    }
                   </div>
                 </div>
                 <div class="mb-3">
@@ -70,9 +91,16 @@
                   <input
                     type="email"
                     class="form-control"
-                    [(ngModel)]="formData.email"
-                    name="email"
+                    formControlName="email"
                   />
+                  @if(addUserForm.get('email')?.errors
+                  &&addUserForm.get('email')?.touched){
+                  <div class="bg-warning text-center mt-2 p-2 rounded-2">
+                    @if(addUserForm.get('email')?.getError('required')){
+                    <p class="m-0">Emaill address is required</p>
+                    }
+                  </div>
+                  }
                 </div>
                 <div class="d-flex">
                   <div class="mb-3 w-50 me-2">
@@ -80,31 +108,37 @@
                     <input
                       type="text"
                       class="form-control"
-                      [(ngModel)]="formData.phone"
-                      name="phone"
+                      formControlName="phone"
                     />
+                    @if(addUserForm.get('phone')?.errors
+                    &&addUserForm.get('phone')?.touched){
+                    <div class="bg-warning text-center mt-2 p-2 rounded-2">
+                      @if(addUserForm.get('phone')?.getError('required')){
+                      <p class="m-0">Phone number is required</p>
+                      }
+                    </div>
+                    }
                   </div>
                   <div class="mb-3 w-50">
                     <label class="form-label">Role</label>
-                    <select
-                      class="form-select"
-                      [(ngModel)]="formData.role"
-                      name="role"
-                    >
-                      <option [value]="Role.User">User</option>
-                      <option [value]="Role.Admin">Admin</option>
+                    <select class="form-select" formControlName="Role">
+                      <option value="User">User</option>
+                      <option value="Admin">Admin</option>
                     </select>
                   </div>
                 </div>
+                <div class="modal-footer">
+                  <button
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                    type="button"
+                    (click)="formreset()"
+                  >
+                    Cancel
+                  </button>
+                  <button class="btn btn-primary">Add User</button>
+                </div>
               </form>
-            </div>
-            <div class="modal-footer">
-              <button class="btn btn-secondary" data-bs-dismiss="modal">
-                Close
-              </button>
-              <button class="btn btn-primary" (click)="saveUser()">
-                {{ isEdit ? "Update User" : "Add User" }}
-              </button>
             </div>
           </div>
         </div>
@@ -156,12 +190,15 @@
             <td>
               <button
                 class="btn button btn-sm me-1 rounded-3 text-dark fw-medium"
-                (click)="toggleStatus(user)"
+                (click)="toggleStatus(user.id)"
               >
-                <i [ngClass]="user.isActive ? 'fa fa-eye' : 'fa fa-eye-slash'">
-                  ></i
-                >
-
+                <i
+                  [ngClass]="
+                    user.isActive
+                      ? 'fa fa-eye'
+                      : 'fa fa-eye-slash'
+                  "
+                ></i>
                 {{ user.isActive ? "Deactivate" : "Activate" }}
               </button>
 
@@ -171,11 +208,10 @@
                 class="btn button btn-sm me-1 rounded-3 text-dark fw-medium"
                 data-bs-toggle="modal"
                 data-bs-target="#EditUser"
-                (click)="openEditUser(user, i)"
+                (click)="openEditUser(user, user.id)"
               >
                 <i class="fa-solid fa-pen-to-square"></i>
               </button>
-
               <button
                 class="btn button btn-sm rounded-3 text-dark fw-medium"
                 (click)="deleteUser(user.id)"
@@ -189,7 +225,6 @@
       </table>
     </div>
   </div>
-
   <!-- Modal Edit user -->
   <div
     class="modal fade justify-content-center align-content-center"
@@ -201,42 +236,54 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">edit user</h1>
+          <div class="Content">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Edit User</h1>
+            <p>Update user information</p>
+          </div>
           <button
             type="button"
             class="btn-close"
             data-bs-dismiss="modal"
             aria-label="Close"
+            (click)="formreset()"
           ></button>
         </div>
         <div class="modal-body">
-          <!-- alerts -->
-          <div *ngIf="errorMessage" class="alert alert-danger">
-            {{ errorMessage }}
+          @if (message) {
+          <div
+            class="alert mt-2"
+            [ngClass]="{
+              'alert-success': messageType === 'success',
+              'alert-warning': messageType === 'warning'
+            }"
+          >
+            {{ message }}
           </div>
-          <div *ngIf="successMessage" class="alert alert-success">
-            {{ successMessage }}
-          </div>
-          <form #userForm="ngForm">
+          }
+          <form [formGroup]="EditUserForm" (ngSubmit)="onUpdateUser()">
             <div class="d-flex">
               <div class="mb-3 w-50 me-2">
                 <label class="form-label">Username</label>
                 <input
                   type="text"
                   class="form-control"
-                  [(ngModel)]="formData.username"
-                  name="username"
-                  required
+                  formControlName="userName"
                 />
+                @if(EditUserForm.get('userName')?.errors
+                &&EditUserForm.get('userName')?.touched){
+                <div class="bg-warning text-center mt-2 p-2 rounded-2">
+                  @if(EditUserForm.get('userName')?.getError('required')){
+                  <p class="m-0">User name is required</p>
+                  }
+                </div>
+                }
               </div>
               <div class="mb-3 w-50">
                 <label class="form-label">Password</label>
                 <input
                   type="password"
                   class="form-control"
-                  [(ngModel)]="formData.password"
-                  name="password"
-                  [required]="!isEdit"
+                  formControlName="password"
                 />
               </div>
             </div>
@@ -245,9 +292,16 @@
               <input
                 type="email"
                 class="form-control"
-                [(ngModel)]="formData.email"
-                name="email"
+                formControlName="email"
               />
+              @if(EditUserForm.get('email')?.errors
+              &&EditUserForm.get('email')?.touched){
+              <div class="bg-warning text-center mt-2 p-2 rounded-2">
+                @if(EditUserForm.get('email')?.getError('required')){
+                <p class="m-0">Emaill address is required</p>
+                }
+              </div>
+              }
             </div>
             <div class="d-flex">
               <div class="mb-3 w-50 me-2">
@@ -255,31 +309,37 @@
                 <input
                   type="text"
                   class="form-control"
-                  [(ngModel)]="formData.phone"
-                  name="phone"
+                  formControlName="phone"
                 />
+                @if(EditUserForm.get('phone')?.errors
+                &&EditUserForm.get('phone')?.touched){
+                <div class="bg-warning text-center mt-2 p-2 rounded-2">
+                  @if(EditUserForm.get('phone')?.getError('required')){
+                  <p class="m-0">Phone number is required</p>
+                  }
+                </div>
+                }
               </div>
               <div class="mb-3 w-50">
                 <label class="form-label">Role</label>
-                <select
-                  class="form-select"
-                  [(ngModel)]="formData.role"
-                  name="role"
-                >
-                  <option [value]="Role.User">User</option>
-                  <option [value]="Role.Admin">Admin</option>
+                <select class="form-select" formControlName="Role">
+                  <option value="User">User</option>
+                  <option value="Admin">Admin</option>
                 </select>
               </div>
             </div>
+            <div class="modal-footer">
+              <button
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+                type="button"
+                (click)="formreset()"
+              >
+                Cancel
+              </button>
+              <button class="btn btn-primary">Update User</button>
+            </div>
           </form>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-secondary" data-bs-dismiss="modal">
-            Close
-          </button>
-          <button class="btn btn-primary" (click)="saveUser()">
-            Update User
-          </button>
         </div>
       </div>
     </div>

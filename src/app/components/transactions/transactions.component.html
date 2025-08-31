@@ -35,7 +35,11 @@
         </div>
       </div>
       <small class="text-muted d-block mt-2">
-        Showing {{ (transactions | transactionFilter: filteredType: searchTerm).length }} transactions
+        Showing
+        {{
+          (transactions | transactionFilter : filteredType : searchTerm).length
+        }}
+        transactions
       </small>
     </div>
   </div>
@@ -46,52 +50,61 @@
     <div class="card-body">
       <ng-container *ngIf="transactions.length > 0; else noTransactions">
         <div
-          *ngFor="let t of transactions | transactionFilter: filteredType : searchTerm"
+          *ngFor="
+            let t of transactions
+              | transactionFilter : filteredType : searchTerm
+          "
           class="d-flex justify-content-between align-items-center border-bottom py-3"
         >
-         <!-- Left: Icon + Info -->
-        <div class="d-flex align-items-center">
-        <span class="me-3 fs-4">
-            <i
-            class="bi"
-            [ngClass]="{
-                'bi-arrow-up-circle-fill text-success': t.type === 'Credit',
-                'bi-arrow-down-circle-fill text-danger': t.type === 'Debit'
-            }"
-            ></i>
-        </span>
-        <div>
-            <h4 class="mb-0 fw-semibold" style="font-size: 1 rem;">{{ t.description }}</h4>
-            <div class="small" style="font-size: 0.9 rem;">
-            {{ t.date | date:'mediumDate' }} • 
-            <span 
-                class="badge"
+          <!-- Left: Icon + Info -->
+          <div class="d-flex align-items-center">
+            <span class="me-3 fs-4">
+              <i
+                class="bi"
                 [ngClass]="{
-                'bg-primary': t.type === 'Credit',
-                'bg-success': t.type === 'Debit'
+                  'bi-arrow-up-circle-fill text-success':
+                    accountNo && t.ToAccountNo === accountNo,
+                  'bi-arrow-down-circle-fill text-danger':
+                    accountNo && t.fromAccountNo === accountNo
                 }"
-                style="font-size: 0.85rem;"
-            >
-                {{ t.type }}
+              ></i>
             </span>
+            <div>
+              <h4 class="mb-0 fw-semibold" style="font-size: 1 rem">
+                {{ t.description }}
+              </h4>
+              <div class="small" style="font-size: 0.9 rem">
+                {{ t.date | date : "mediumDate" }} •
+                <span
+                  class="badge"
+                  [ngClass]="{
+                    'bg-primary': t.type === 'Credit',
+                    'bg-success': t.type === 'Debit'
+                  }"
+                  style="font-size: 0.85rem"
+                >
+                  {{ t.type }}
+                </span>
+              </div>
             </div>
-        </div>
-        </div>
-
+          </div>
 
           <!-- Right: Amount + ID -->
           <div class="text-end">
             <span
               class="fw-bold"
               [ngClass]="{
-                'text-success': t.type === 'Credit',
-                'text-danger': t.type === 'Debit'
+                'text-success': accountNo && t.ToAccountNo === accountNo,
+                'text-danger': accountNo && t.fromAccountNo === accountNo
               }"
             >
-              {{ t.type === 'Credit' ? '+' : '-' }}{{ t.amount | currency }}
+              {{ accountNo && t.ToAccountNo === accountNo ? "+" : "-"
+              }}{{ t.amount | currency }}
             </span>
             <br />
-            <span class="text-muted small" style="font-size: 0.8 rem;">Transaction ID: {{ t.id }}</span>
+            <span class="text-muted small" style="font-size: 0.8 rem"
+              >Transaction ID: {{ t.id }}</span
+            >
           </div>
         </div>
       </ng-container>

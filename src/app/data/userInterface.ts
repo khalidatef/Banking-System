@@ -1,5 +1,5 @@
 import { Role } from './mock-users';
-export interface User {
+export interface Iuser {
   username: string;
   password: string;
   role: Role;

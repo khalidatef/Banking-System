@@ -23,6 +23,7 @@ export class TransactionsComponent implements OnInit {
   filteredType: string = 'All';
   searchTerm: string = '';
   transactionTypes = ['All', TransactionType.Credit, TransactionType.Debit];
+  accountNo: string | null = null;
 
   constructor(private accountService: AccountService, private auth: AuthService) {}
 
@@ -32,6 +33,7 @@ export class TransactionsComponent implements OnInit {
 
   this.accountService.getAccountForUser(username).subscribe(acc => {
     if (acc) {
+      this.accountNo = acc.accountNo;
       this.accountService.getTransactionsByAccountNo(acc.accountNo)
         .subscribe(tx => this.transactions = tx);
     }

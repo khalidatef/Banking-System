@@ -1,4 +1,4 @@
-import { User } from './user';
+import { Iuser } from './userInterface';
 
 // Role Enum
 export enum Role {
@@ -7,7 +7,7 @@ export enum Role {
 }
 
 // Complete User Data (30 records)
-export let users: User[] = [
+export let users: Iuser[] = [
   {
     id: '1',
     username: 'john_doe',

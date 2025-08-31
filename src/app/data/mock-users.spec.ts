@@ -1,7 +1,7 @@
-import { MockUsers } from './mock-users';
+import { users } from './mock-users';
 
 describe('MockUsers', () => {
-  it('should create an instance', () => {
-    expect(new MockUsers()).toBeTruthy();
+  it('should have mock users data', () => {
+    expect(users.length).toBeGreaterThan(0);
   });
 });
