@@ -49,3 +49,9 @@ table {
   color: #721c24;
   border: 1px solid #f5c6cb;
 }
+.bg-color-active{
+  background-color: #6c9c78;
+}
+.bg-color-Inactive{
+  background-color: rgb(192, 89, 89);
+}

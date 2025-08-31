@@ -13,7 +13,7 @@ import { Observable } from 'rxjs';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './fund-transfer.component.html',
-  styleUrls: ['./fund-transfer.component.css']
+  styleUrls: ['./fund-transfer.component.css'],
 })
 export class FundTransferComponent {
   // form fields
@@ -21,7 +21,7 @@ export class FundTransferComponent {
     fromAccountNo: '',
     toAccountNo: '',
     amount: 0,
-    description: ''
+    description: '',
   };
 
   userAccounts: Account[] = [];
@@ -33,38 +33,45 @@ export class FundTransferComponent {
   ) {}
 
   ngOnInit() {
+    this.getbalance();
+  }
+  getbalance(): void {
     const username = this.auth.getUsername();
     if (!username) return;
 
-  
-    this.accountService.getAccountForUser(username).subscribe(acc => {
+    this.accountService.getAccountForUser(username).subscribe((acc) => {
       if (acc) {
-        this.userAccounts = [acc]; 
+        this.userAccounts = [acc];
         this.transfer.fromAccountNo = acc.accountNo;
 
-        this.accountService.getTransactionsByAccountNo(acc.accountNo)
-          .subscribe(tx => this.transactions = tx);
+        this.accountService
+          .getTransactionsByAccountNo(acc.accountNo)
+          .subscribe((tx) => (this.transactions = tx));
       }
     });
   }
 
   // Main
   transferFunds() {
-   
-    if (!this.transfer.fromAccountNo || !this.transfer.toAccountNo || !this.transfer.amount || this.transfer.amount <= 0) {
-      alert("Please fill in all fields");
+    if (
+      !this.transfer.fromAccountNo ||
+      !this.transfer.toAccountNo ||
+      !this.transfer.amount ||
+      this.transfer.amount <= 0
+    ) {
+      alert('Please fill in all fields');
       return;
     }
 
-    this.getAccountByNo(this.transfer.fromAccountNo).subscribe(sender => {
-      this.getAccountByNo(this.transfer.toAccountNo).subscribe(receiver => {
+    this.getAccountByNo(this.transfer.fromAccountNo).subscribe((sender) => {
+      this.getAccountByNo(this.transfer.toAccountNo).subscribe((receiver) => {
         if (!sender || !receiver) {
-          alert("Invalid accounts");
+          alert('Invalid accounts');
           return;
         }
 
         if (sender.balance < this.transfer.amount) {
-          alert("Insufficient funds ❌");
+          alert('Insufficient funds ❌');
           return;
         }
 
@@ -74,11 +81,12 @@ export class FundTransferComponent {
   }
 
   getAccountByNo(accountNo: string): Observable<Account | undefined> {
-    return this.accountService.getAccounts().pipe(
-      map(accounts => accounts.find(acc => acc.accountNo === accountNo))
-    );
+    return this.accountService
+      .getAccounts()
+      .pipe(
+        map((accounts) => accounts.find((acc) => acc.accountNo === accountNo))
+      );
   }
-
 
   updateBalances(sender: Account, receiver: Account, amount: number) {
     sender.balance -= amount;
@@ -86,9 +94,14 @@ export class FundTransferComponent {
 
     this.accountService.updateAccount(sender).subscribe(() => {
       this.accountService.updateAccount(receiver).subscribe(() => {
-        this.recordTransaction(sender.accountNo, receiver.accountNo, amount, this.transfer.description);
-        alert("✅ Transfer successful");
-
+        this.recordTransaction(
+          sender.accountNo,
+          receiver.accountNo,
+          amount,
+          this.transfer.description
+        );
+        alert('✅ Transfer successful');
+        this.getbalance();
         // reset form
         this.transfer.toAccountNo = '';
         this.transfer.amount = 0;
@@ -97,25 +110,22 @@ export class FundTransferComponent {
     });
   }
 
-
   recordTransaction(from: string, to: string, amount: number, desc: string) {
-
     const newTx: Omit<Transaction, 'id'> = {
       fromAccountNo: from,
       ToAccountNo: to,
       amount,
       description: desc,
-      date: new Date().toISOString(), 
-      type: 'Debit'
+      date: new Date().toISOString(),
+      type: 'Debit',
     };
 
-
     this.accountService.addTransaction(newTx).subscribe({
-      next: tx => this.transactions.push(tx),
-      error: err => console.error('Transaction POST failed:', err)
+      next: (tx) => this.transactions.push(tx),
+      error: (err) =>
+        console.error('Transaction POST failed:', alert(' Transfer failed ❌')),
     });
 
     console.log('Transaction payload:', newTx);
-
-}
+  }
 }

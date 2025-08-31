@@ -121,6 +121,7 @@ export class AdminPanelComponent implements OnInit {
     this.currentEditId = id;
     this.EditUserForm.patchValue({
       userName: user.username,
+      password: user.password,
       email: user.email,
       phone: user.phone,
       Role: user.role,
@@ -141,7 +142,7 @@ export class AdminPanelComponent implements OnInit {
           oldUser.email === updatedUser.email &&
           oldUser.phone === updatedUser.phone &&
           oldUser.role === updatedUser.Role;
-          !updatedUser.password;
+        oldUser.password === updatedUser.password;
 
         if (isSame) {
           this.message = '⚠️ No changes were made!';
@@ -174,6 +175,7 @@ export class AdminPanelComponent implements OnInit {
       }
     }
   }
+
   toggleStatus(id: number): void {
     const index = this.users.findIndex((u) => u.id === id);
 
@@ -183,6 +185,7 @@ export class AdminPanelComponent implements OnInit {
     }
     this.displayUsers();
   }
+
   deleteUser(id: string) {
     const index = this.users.findIndex((u) => u.id === id);
     if (index !== -1) {
