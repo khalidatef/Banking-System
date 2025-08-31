@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { users } from '../../data/mock-users';
 import {
   FormBuilder,
   FormsModule,
@@ -8,39 +7,38 @@ import {
   Validators,
 } from '@angular/forms';
 
+import { UserStoreService } from '../../services/user-store.service';
+import { Iuser } from '../../data/userInterface';
+import { Role } from '../../data/mock-users';
+
 @Component({
   selector: 'app-admin-panel',
   standalone: true,
   imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './admin-panel.component.html',
-  styleUrl: './admin-panel.component.css',
+  styleUrls: ['./admin-panel.component.css'],
 })
 export class AdminPanelComponent implements OnInit {
-  constructor(private _FormBuilder: FormBuilder) {}
-  message: string = '';
+  constructor(private fb: FormBuilder, private userStore: UserStoreService) {}
+
+  message = '';
   messageType: 'success' | 'error' | 'warning' | '' = '';
-  currentEditId: number | null = null;
-  users: any[] = [];
+  currentEditId: string | null = null;
+  users: Iuser[] = [];
 
   ngOnInit(): void {
     this.displayUsers();
   }
 
   displayUsers(): void {
-    const storedData = localStorage.getItem('users');
-    if (storedData) {
-      this.users = JSON.parse(storedData);
-    } else {
-      localStorage.setItem('users', JSON.stringify(users));
-      this.users = users;
-    }
+    this.users = this.userStore.getAll();
   }
 
-  addUserForm = this._FormBuilder.group({
-    userName: [null, [Validators.required]],
-    password: [null, [Validators.required, Validators.minLength(3)]],
+  addUserForm = this.fb.nonNullable.group({
+    userName: ['', [Validators.required]],
+    password: ['', [Validators.required, Validators.minLength(3)]],
     email: [
-      null,
+      '',
       [
         Validators.required,
         Validators.email,
@@ -48,150 +46,140 @@ export class AdminPanelComponent implements OnInit {
       ],
     ],
     phone: [
-      null,
-      [
-        Validators.required,
-        Validators.pattern('^(\\+201|01|00201)[0-2,5][0-9]{8}$'),
-      ],
+      '',
+      [Validators.required, Validators.pattern(/^\+1\d{10}$/)],
     ],
-    Role: [null, [Validators.required]],
+    Role: ['User' as Role, [Validators.required]],
   });
-  EditUserForm = this._FormBuilder.group({
-    userName: [null, [Validators.required]],
-    password: [null, [Validators.required, Validators.minLength(3)]],
+
+  EditUserForm = this.fb.nonNullable.group({
+    userName: ['', [Validators.required]],
+    password: ['', [Validators.required, Validators.minLength(3)]],
     email: [
-      null,
+      '',
       [
         Validators.required,
         Validators.email,
         Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$'),
       ],
     ],
-    phone: [null, [Validators.required]],
-    Role: [null, [Validators.required]],
+    phone: ['', [Validators.required, Validators.pattern(/^\+1\d{10}$/)]],
+    Role: ['User' as Role, [Validators.required]],
   });
 
   formreset() {
-    this.addUserForm.reset();
+    this.addUserForm.reset({
+      userName: '',
+      password: '',
+      email: '',
+      phone: '',
+      Role: 'User' as Role,
+    });
   }
 
   addUser(): void {
-    if (this.addUserForm.valid) {
-      const newUser = this.addUserForm.value;
-      const isExist = this.users.some(
-        (user) =>
-          user.username === newUser.userName ||
-          user.email === newUser.email ||
-          user.phone === newUser.phone
-      );
-
-      if (isExist) {
-        this.message = '⚠️ User already exists!';
-        this.messageType = 'error';
-        return;
-      }
-      const id =
-        this.users.length > 0
-          ? Math.max(...this.users.map((user) => user.id)) + 1
-          : 1;
-      const user = {
-        id,
-        username: newUser.userName,
-        password: newUser.password,
-        email: newUser.email,
-        phone: newUser.phone,
-        role: newUser.Role,
-        isActive: true,
-      };
-      this.users.push(user);
-      localStorage.setItem('users', JSON.stringify(this.users));
-      this.displayUsers();
-      this.formreset();
-      this.message = '✅ User added successfully!';
-      this.messageType = 'success';
-      setTimeout(() => {
-        this.message = '';
-      }, 2000);
-    } else {
+    if (this.addUserForm.invalid) {
       this.addUserForm.markAllAsTouched();
+      this.message = 'Please fix the highlighted fields.';
+      this.messageType = 'error';
+      return;
     }
+
+    const v = this.addUserForm.getRawValue();
+
+    const isExist = this.users.some(
+      (u) =>
+        u.username === v.userName ||
+        u.email.toLowerCase() === v.email.toLowerCase() ||
+        u.phone === v.phone
+    );
+    if (isExist) {
+      this.message = '⚠️ User already exists!';
+      this.messageType = 'error';
+      return;
+    }
+
+    this.userStore.add({
+      username: v.userName,
+      password: v.password,
+      email: v.email,
+      phone: v.phone,
+      role: v.Role as Role,
+      isActive: true,
+    });
+
+    this.displayUsers();
+    this.formreset();
+    this.message = '✅ User added successfully!';
+    this.messageType = 'success';
+    setTimeout(() => (this.message = ''), 2000);
   }
 
-  openEditUser(user: any, id: number) {
-    this.currentEditId = id;
-    this.EditUserForm.patchValue({
+  openEditUser(user: Iuser, id: string | number) {
+    const idStr = String(id);
+    this.currentEditId = idStr;
+
+    this.EditUserForm.setValue({
       userName: user.username,
       password: user.password,
       email: user.email,
       phone: user.phone,
-      Role: user.role,
+      Role: user.role as Role,
     });
   }
 
   onUpdateUser() {
-    if (this.EditUserForm.valid) {
-      const updatedUser = this.EditUserForm.value;
-
-      const index = this.users.findIndex((u) => u.id === this.currentEditId);
-
-      if (index !== -1) {
-        const oldUser = this.users[index];
-        const isSame =
-          oldUser.username === updatedUser.userName &&
-          oldUser.password === updatedUser.password &&
-          oldUser.email === updatedUser.email &&
-          oldUser.phone === updatedUser.phone &&
-          oldUser.role === updatedUser.Role;
-        oldUser.password === updatedUser.password;
-
-        if (isSame) {
-          this.message = '⚠️ No changes were made!';
-          this.messageType = 'warning';
-          setTimeout(() => (this.message = ''), 2000);
-          return;
-        }
-        if (index !== -1) {
-          this.users[index] = {
-            ...this.users[index],
-            username: updatedUser.userName,
-            password: updatedUser.password,
-            email: updatedUser.email,
-            phone: updatedUser.phone,
-            role: updatedUser.Role,
-          };
-
-          localStorage.setItem('users', JSON.stringify(this.users));
-          this.displayUsers();
-
-          this.message = '✅ User Updated successfully!';
-          this.messageType = 'success';
-
-          setTimeout(() => {
-            this.message = '';
-          }, 2000);
-        }
-      } else {
-        this.EditUserForm.markAllAsTouched();
-      }
+    if (this.EditUserForm.invalid || !this.currentEditId) {
+      this.EditUserForm.markAllAsTouched();
+      this.message = 'Please fix the highlighted fields.';
+      this.messageType = 'error';
+      return;
     }
+
+    const v = this.EditUserForm.getRawValue();
+    const idx = this.users.findIndex((u) => u.id === this.currentEditId);
+    if (idx === -1) return;
+
+    const old = this.users[idx];
+    const isSame =
+      old.username === v.userName &&
+      old.password === v.password &&
+      old.email.toLowerCase() === v.email.toLowerCase() &&
+      old.phone === v.phone &&
+      old.role === v.Role;
+
+    if (isSame) {
+      this.message = '⚠️ No changes were made!';
+      this.messageType = 'warning';
+      setTimeout(() => (this.message = ''), 2000);
+      return;
+    }
+
+    this.userStore.update(this.currentEditId, {
+      username: v.userName,
+      password: v.password,
+      email: v.email,
+      phone: v.phone,
+      role: v.Role as Role,
+    });
+
+    this.displayUsers();
+    this.message = '✅ User updated successfully!';
+    this.messageType = 'success';
+    setTimeout(() => (this.message = ''), 2000);
   }
 
-  toggleStatus(id: number): void {
-    const index = this.users.findIndex((u) => u.id === id);
+  toggleStatus(id: string | number): void {
+    const idStr = String(id);
+    const u = this.users.find((x) => x.id === idStr);
+    if (!u) return;
 
-    if (index !== -1) {
-      this.users[index].isActive = !this.users[index].isActive;
-      localStorage.setItem('users', JSON.stringify(this.users));
-    }
+    this.userStore.update(idStr, { isActive: !u.isActive });
     this.displayUsers();
   }
 
-  deleteUser(id: string) {
-    const index = this.users.findIndex((u) => u.id === id);
-    if (index !== -1) {
-      this.users.splice(index, 1);
-      localStorage.setItem('users', JSON.stringify(this.users));
-    }
+  deleteUser(id: string | number) {
+    this.userStore.remove(String(id));
     this.displayUsers();
   }
 }
