@@ -1,6 +1,6 @@
 .card {
   width: 590px;
-  height: 200px;
+  height: 205px;
   margin-top: 250px;
   border-radius: 20px;
   -webkit-border-radius: 20px;
@@ -13,4 +13,15 @@
   background-color: #eff8fa;
   border: 2px solid #aec2da;
   width: 100%;
+}
+.fixed-card {
+  width: 590px;
+}
+
+@media (max-width: 768px) {
+  .fixed-card {
+    width: 90%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
 }

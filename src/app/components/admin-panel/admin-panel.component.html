@@ -190,7 +190,11 @@
             <td>
               <button
                 class="btn button btn-sm me-1 rounded-3 text-dark fw-medium"
-                [ngClass]="user.isActive ? 'bg-color-active text-white' : 'bg-color-Inactive text-white'"
+                [ngClass]="
+                  user.isActive
+                    ? 'bg-color-active text-white'
+                    : 'bg-color-Inactive text-white'
+                "
                 (click)="toggleStatus(user.id)"
               >
                 <i class="fa-solid fa-power-off text-dark"></i>

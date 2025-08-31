@@ -45,10 +45,7 @@ export class AdminPanelComponent implements OnInit {
         Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$'),
       ],
     ],
-    phone: [
-      '',
-      [Validators.required, Validators.pattern(/^\+1\d{10}$/)],
-    ],
+    phone: ['', [Validators.required]],
     Role: ['User' as Role, [Validators.required]],
   });
 
@@ -63,7 +60,7 @@ export class AdminPanelComponent implements OnInit {
         Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$'),
       ],
     ],
-    phone: ['', [Validators.required, Validators.pattern(/^\+1\d{10}$/)]],
+    phone: ['', [Validators.required]],
     Role: ['User' as Role, [Validators.required]],
   });
 
@@ -82,6 +79,7 @@ export class AdminPanelComponent implements OnInit {
       this.addUserForm.markAllAsTouched();
       this.message = 'Please fix the highlighted fields.';
       this.messageType = 'error';
+      setTimeout(() => (this.message = ''), 2000);
       return;
     }
 
@@ -96,6 +94,7 @@ export class AdminPanelComponent implements OnInit {
     if (isExist) {
       this.message = '⚠️ User already exists!';
       this.messageType = 'error';
+      setTimeout(() => (this.message = ''), 2000);
       return;
     }
 
@@ -162,7 +161,7 @@ export class AdminPanelComponent implements OnInit {
       phone: v.phone,
       role: v.Role as Role,
     });
-
+    localStorage.setItem('users', JSON.stringify(this.users));
     this.displayUsers();
     this.message = '✅ User updated successfully!';
     this.messageType = 'success';

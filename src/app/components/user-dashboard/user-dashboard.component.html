@@ -1,15 +1,15 @@
 <section>
-  <!--main content -->
+  <!-- main content -->
   <div class="container text-center py-5">
-    <div class="mb-4"></div>
     <i class="fa-solid fa-credit-card fa-3x text-primary mb-3"></i>
     <h1 class="fw-bold">Welcome back, {{ username }}!</h1>
     <p class="text-muted">Manage your banking system from admin dashboard</p>
   </div>
 
-  <!--card section -->
-  <div class="d-flex justify-content-between">
-    <div class="card shadow-sm ms-5">
+  <!-- card section -->
+  <div class="d-flex flex-wrap justify-content-between">
+    <!-- My Account -->
+    <div class="card shadow-sm fixed-card ms-5 mb-4">
       <div class="card-body text-center mt-3">
         <i class="fa-solid fa-money-check-dollar text-primary fa-2x mb-3"></i>
         <h5 class="card-title fw-bold fs-6">My Account</h5>
@@ -24,12 +24,14 @@
         </button>
       </div>
     </div>
-    <div class="card shadow-sm">
+
+    <!-- Transaction -->
+    <div class="card shadow-sm fixed-card mb-4">
       <div class="card-body text-center mt-3">
         <i class="fa-solid fa-arrow-trend-up text-primary fa-2x mb-3"></i>
         <h5 class="card-title fw-bold fs-6">Transaction</h5>
         <p class="card-text text-muted">
-          Browse and filter and all your transactions
+          Browse and filter all your transactions
         </p>
         <button
           routerLink="/user/transactions"
@@ -39,7 +41,9 @@
         </button>
       </div>
     </div>
-    <div class="card shadow-sm me-5">
+
+    <!-- Fund Transfer -->
+    <div class="card shadow-sm fixed-card me-5 mb-4">
       <div class="card-body text-center mt-3">
         <i class="fa-solid fa-dollar-sign text-primary fa-2x mb-3"></i>
         <h5 class="card-title fw-bold fs-6">Fund Transfer</h5>
